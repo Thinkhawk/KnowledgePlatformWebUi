@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="KnowledgePlatformWebUi.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
