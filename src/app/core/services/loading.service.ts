@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-
-/**
- * Manages global loading state across the application.
- * 
- * Tracks active HTTP requests and exposes loading status as observable.
- */
 @Injectable({
   providedIn: 'root'
 })
