@@ -6,15 +6,6 @@ import { inject } from '@angular/core';
 import { LoadingService } from '../services/loading.service';
 
 
-/**
- * Interceptor that manages global loading state.
- *
- * NOTE:
- *    finalize offers guaranteed cleanup.  It runs:
- *    - on success
- *    - on error
- *    - on cancellation
- */
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
 
   const loadingService = inject(LoadingService);

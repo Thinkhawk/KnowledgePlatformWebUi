@@ -1,1 +1,3 @@
-// blank
+export interface AppConfig {
+  apiBaseUrl: string;
+}
