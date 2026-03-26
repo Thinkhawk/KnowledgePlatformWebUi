@@ -1,0 +1,127 @@
+<div class="container mt-4">
+
+    <h2>Update Note</h2>
+
+    <!-- API Error -->
+    <div *ngIf="apiError()" class="alert alert-danger">
+        {{ apiError() }}
+    </div>
+
+    <form [formGroup]="noteUpdateForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Category Name -->
+        <div class="mb-3">
+
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" formControlName="title">
+
+            <!-- Client validation -->
+            <div class="text-danger"
+                 *ngIf="noteUpdateForm.controls.title.touched && noteUpdateForm.controls.title.errors">
+
+                <div *ngIf="noteUpdateForm.controls.title.errors['required']">
+                    Title is required.
+                </div>
+
+                <div *ngIf="noteUpdateForm.controls.title.errors['minlength']">
+                    Title must be at least 2 characters.
+                </div>
+
+                <div *ngIf="noteUpdateForm.controls.title.errors['maxlength']">
+                    Title cannot exceed 100 characters.
+                </div>
+
+            </div>
+
+            <!-- Server validation -->
+            <div class="text-danger" *ngIf="validationErrors['Title']">
+                {{ validationErrors['Title'][0] }}
+            </div>
+
+        </div>
+
+
+        <!-- Content -->
+        <div class="mb-3">
+
+            <label class="form-label">Content</label>
+
+            <textarea class="form-control" rows="3"
+                      formControlName="content">
+            </textarea>
+
+            <!-- Server validation -->
+            <div class="text-danger" *ngIf="validationErrors['Content']">
+                {{ validationErrors['Content'][0] }}
+            </div>
+
+        </div>
+
+        <!-- Tags -->
+        <div class="mb-3">
+
+            <label class="form-label">Tags</label>
+            <input type="text" class="form-control" formControlName="tags">
+
+            <!-- Server validation -->
+            <div class="text-danger" *ngIf="validationErrors['Tags']">
+                {{ validationErrors['Tags'][0] }}
+            </div>
+
+        </div>
+
+        <!-- TeamID -->
+        <div class="mb-3">
+
+            <label class="form-label">TeamId</label>
+            <input type="text" class="form-control" formControlName="teamId" readonly>
+
+            <!-- Client validation -->
+            <div class="text-danger"
+                 *ngIf="noteUpdateForm.controls.teamId.touched && noteUpdateForm.controls.teamId.errors">
+
+                <div *ngIf="noteUpdateForm.controls.teamId.errors['required']">
+                    TeamId is required.
+                </div>
+            </div>
+
+            <!-- Server validation -->
+            <div class="text-danger" *ngIf="validationErrors['TeamId']">
+                {{ validationErrors['TeamId'][0] }}
+            </div>
+
+        </div>
+
+        <!-- UserId -->
+        <div class="mb-3">
+
+            <label class="form-label">UserId</label>
+            <input type="text" class="form-control" formControlName="userId">
+
+            <!-- Client validation -->
+            <div class="text-danger"
+                 *ngIf="noteUpdateForm.controls.userId.touched && noteUpdateForm.controls.userId.errors">
+
+                <div *ngIf="noteUpdateForm.controls.userId.errors['required']">
+                    UserId is required.
+                </div>
+            </div>
+
+            <!-- Server validation -->
+            <div class="text-danger" *ngIf="validationErrors['UserId']">
+                {{ validationErrors['UserId'][0] }}
+            </div>
+
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+            Update
+        </button>
+
+        <a [routerLink]="['/',teamId()]" class="btn btn-secondary ms-2">
+            Cancel
+        </a>
+
+    </form>
+
+</div>

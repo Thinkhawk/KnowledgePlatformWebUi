@@ -1,0 +1,41 @@
+<!-- notes-gallery.component.html -->
+<div class="container mt-5">
+    <div *ngIf="apiError()" class="alert alert-danger">
+        {{ apiError() }}
+    </div>
+    
+    <div class="container mt-4">
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-warning "
+               [routerLink]="['createNote']">
+                Create Note
+            </a>
+        </div>
+        <note-filter [teamId]="teamId()" (filterEvent)="handleFilterEvent($event)"></note-filter>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 mb-4" *ngFor="let note of noteReadModels()">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ note.title }}</h5>
+                        <small class="text-muted">User: {{ note.userId }}</small><br />
+                        <small class="text-muted">Created on: {{ note.createdAtUtc }}</small><br />
+                        <small class="text-muted">Last updated: {{ note.updatedAtUtc }}</small>
+                    </div>
+                    <div class="card-body">
+
+                        <p class="card-text">{{ note.content }}</p>
+                        <small *ngFor="let tag of note.tags">
+                            #{{ tag }}
+                        </small>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" [routerLink]="['edit/',note.noteId]">Edit</a>
+                            <a class="btn btn-danger" [routerLink]="['delete/',note.noteId]">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

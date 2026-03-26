@@ -13,7 +13,7 @@ import { AppConfig } from './core/config/app-config.interface';
 
 
 const runtimeConfig: AppConfig = {
-  apiBaseUrl: 'https://localhost:7288/api'
+  apiBaseUrl: 'https://localhost:7288/api/'
 };
 
 

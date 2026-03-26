@@ -1,0 +1,96 @@
+<div class="card bg-white border shadow-sm mb-3">
+    <div class="card-body p-2">
+        <form [formGroup]="noteFilterForm" (ngSubmit)="onSubmit()" class="row g-2 align-items-center">
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">ID</span>
+                    <input type="text" class="form-control" formControlName="noteId" placeholder="...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (id of distinctNoteIds; track id) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('noteId', id)">{{id}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">TITLE</span>
+                    <input type="text" class="form-control" formControlName="title" placeholder="...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (t of distinctTitles; track t) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('title', t)">{{t}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">USER</span>
+                    <input type="text" class="form-control" formControlName="userId" placeholder="...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (u of distinctUserIds; track u) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('userId', u)">{{u}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">TAG</span>
+                    <input type="text" class="form-control" formControlName="tags" placeholder="#...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (tag of distinctTags; track tag) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('tags', tag)">#{{tag}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">CREATED</span>
+                    <input type="date" class="form-control" formControlName="createdAtUtc">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (d of distinctCreatedAtUtc; track d) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('createdAtUtc', d)">{{d}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted small px-2">UPDATED</span>
+                    <input type="date" class="form-control" formControlName="updatedAtUtc">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (d of distinctUpdatedAtUtc; track d) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('updatedAtUtc', d)">{{d}}</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-sm btn-outline-primary px-3 shadow-sm py-1">
+                        Apply Filter
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary text-muted py-0" (click)="noteFilterForm.reset()">
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
