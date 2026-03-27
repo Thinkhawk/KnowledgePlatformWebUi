@@ -4,6 +4,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 import { routes } from './app.routes';
 
@@ -12,7 +13,7 @@ import { AppConfig } from './core/config/app-config.interface';
 
 
 const runtimeConfig: AppConfig = {
-  apiBaseUrl: 'https://localhost:7123/api'
+  apiBaseUrl: 'https://localhost:7288/api'
 };
 
 
@@ -22,8 +23,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptors([
-        loadingInterceptor,             
-        httpErrorInterceptor            
+        authInterceptor,
+        loadingInterceptor,
+        httpErrorInterceptor
       ])
     ),
     {
