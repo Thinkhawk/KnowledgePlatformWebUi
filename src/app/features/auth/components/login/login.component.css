@@ -1,3 +1,29 @@
 h2 {
   text-align: center;
 }
+/* Simple styles for the login form */
+.login-container {
+  max-width: 380px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+.login-container label {
+  display: block;
+  margin-bottom: 4px;
+}
+.login-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+.actions {
+  text-align: right;
+}
+.error {
+  color: #a00;
+  font-size: 0.9em;
+}

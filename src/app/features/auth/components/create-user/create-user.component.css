@@ -1,0 +1,6 @@
+/* Small tweaks for create user form - uses Bootstrap classes primarily */
+.kp-header h2{font-weight:600}
+.kp-card .form-label{font-weight:500}
+.kp-card .message{color:var(--brand-primary)}
+.kp-card .error{color:#d63333}
+.kp-card .invalid-feedback{color:#d63333}
