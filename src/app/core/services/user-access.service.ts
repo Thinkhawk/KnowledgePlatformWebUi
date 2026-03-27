@@ -9,7 +9,6 @@ import { ProjectAccessReadModel } from "../models/user-access.model";
 export class UserAccessService extends ApiBaseService {
 
   getUserAccessibleProjectsAndTeams(userId: string): Observable<ProjectAccessReadModel> {
-    return super.get<ProjectAccessReadModel>(`userAccess/${userId}`);
+    return super.get<ProjectAccessReadModel>(`/userAccess/${userId}`);
   }
-
 }

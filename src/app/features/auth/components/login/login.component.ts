@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService, LoginResponse, LoginDto } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { LoginRequest } from '../../../../core/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -40,12 +41,9 @@ export class LoginComponent {
     this.loading = true;
     this.error = undefined;
 
-    const dto = this.form.value as LoginDto;
+    const dto = this.form.value as LoginRequest;
     this.auth.login(dto).subscribe({
-      next: (res: LoginResponse) => {
-        if (res?.token) {
-          localStorage.setItem('auth_token', res.token);
-        }
+      next: () => {
         this.router.navigate(['']);
       },
       error: (err: any) => {
