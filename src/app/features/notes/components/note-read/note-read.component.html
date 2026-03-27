@@ -2,12 +2,13 @@
     <div *ngIf="apiError()" class="alert alert-danger">
         {{ apiError() }}
     </div>
-        <div class="d-flex justify-content-end mb-3">
-            <a class="btn btn-warning "
-               [routerLink]="['createNote']">
-                Create Note
-            </a>
-        </div>
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-warning"
+                [disabled]="!hasWriteAccess()"
+                [routerLink]="['createNote']">
+            Create Note
+        </button>
+    </div>
         <note-filter [teamId]="teamId()" [noteReadModels]="noteReadModels()" (filterEvent)="handleFilterEvent($event)"></note-filter>
         <div class="mt-5">
         <div class="row">
@@ -24,13 +25,14 @@
                             <span class="badge bg-light text-dark me-1" *ngFor="let tag of note.tags">#{{ tag }}</span>
                         </div>
                     </div>
+                    @if(hasWriteAccess() || note.userId==authService.getPayload()?.unique_name!){
                     <div class="card-footer">
                         <div class="btn-group w-100">
                             <a class="btn btn-sm btn-outline-primary" [routerLink]="['edit/', note.noteId]">Edit</a>
                             <a class="btn btn-sm btn-outline-danger" [routerLink]="['delete/', note.noteId]">Delete</a>
                         </div>
                     </div>
-
+                    }
                     <router-outlet></router-outlet>
                 </div>
             </div>
