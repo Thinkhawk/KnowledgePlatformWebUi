@@ -18,14 +18,16 @@ export const routes: Routes = [
   {
     path: ':teamId',
     component: NoteReadComponent,
+    children: [
+      {
+        path: 'delete/:noteId',
+        component: NoteDeleteComponent
+      }
+    ]
   },
   {
     path: ':teamId/createNote',
     component: NoteCreateComponent,
-  },
-  {
-    path: ':teamId/delete/:noteId',
-    component: NoteDeleteComponent
   },
   {
     path: ':teamId/edit/:noteId',

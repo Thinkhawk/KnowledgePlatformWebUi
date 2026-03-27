@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { AfterContentChecked, Component, OnInit, signal } from '@angular/core';
 import { NoteService } from '../../services/note.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NoteReadModel } from '../../models/note-read.model';
 import { AppHttpError } from '../../../../core/models/app-http-error.model';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,11 @@ import { NoteFilterComponent } from '../note-filter/note-filter.component';
 
 @Component({
   selector: 'note-read',
-  imports: [CommonModule, RouterLink, NoteFilterComponent],
+  imports: [CommonModule, RouterLink, NoteFilterComponent, RouterOutlet],
   templateUrl: './note-read.component.html',
   styleUrl: './note-read.component.css',
 })
-export class NoteReadComponent {
+export class NoteReadComponent implements OnInit{
 
   apiError = signal<string | null>(null);
   noteReadModels = signal<NoteReadModel[]>([]);
@@ -23,10 +23,6 @@ export class NoteReadComponent {
     private activatedRoute: ActivatedRoute,
     private noteService: NoteService
   ) {
-
-  }
-
-  getUsername(userId: string) {
 
   }
 

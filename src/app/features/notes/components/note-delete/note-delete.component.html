@@ -1,37 +1,25 @@
-<div class="container py-4" style="max-width: 500px;">
+<div class="delete-overlay d-flex flex-column align-items-center justify-content-center text-center p-3">
 
     @if (apiError() || concurrencyError()) {
-    <div class="alert alert-danger shadow-sm">
-        <p class="mb-2">{{ apiError() || concurrencyError() }}</p>
+    <div class="alert alert-danger p-2 small w-100">
+        {{ apiError() || concurrencyError() }}
         @if (concurrencyError()) {
-        <button class="btn btn-sm btn-outline-danger" (click)="loadNotes()">Reload</button>
+        <button class="btn btn-xs btn-link" (click)="loadNotes()">Reload</button>
         }
     </div>
     }
 
-    @if(noteReadModel(); as note){
-    <div class="card shadow-sm border-0">
-        <div class="card-body text-center">
-            <h4 class="card-title text-danger mb-3">Delete Note?</h4>
+    <div class="bg-white p-3 rounded shadow-sm border border-danger w-100">
+        <h6 class="text-danger fw-bold mb-2">Confirm Delete?</h6>
+        <p class="small text-muted mb-3">This action is permanent.</p>
 
-            <p class="text-muted">
-                You are about to delete: <br>
-                <strong>{{ note.title }}</strong>
-            </p>
-
-            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
-                <a [routerLink]="['/', note.teamId]" class="btn btn-light px-4">
-                    Cancel
-                </a>
-
-                <button (click)="confirmDelete()"
-                        [disabled]="concurrencyError() !== null"
-                        class="btn btn-danger px-4">
-                    Confirm Delete
-                </button>
-            </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-sm btn-danger" (click)="confirmDelete()" [disabled]="concurrencyError() !== null">
+                Yes, Delete
+            </button>
+            <a [routerLink]="['/', noteReadModel()?.teamId]" class="btn btn-sm btn-light border">
+                Cancel
+            </a>
         </div>
     </div>
-    }
-
 </div>

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NoteUpdateForm } from './note-update.form';
 import { NoteService } from '../../services/note.service';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './note-update.component.html',
   styleUrl: './note-update.component.css',
 })
-export class NoteUpdateComponent {
+export class NoteUpdateComponent implements OnInit {
 
   noteUpdateForm: FormGroup<NoteUpdateForm>;
   validationErrors: Record<string, string[]> = {};
@@ -120,12 +120,11 @@ export class NoteUpdateComponent {
       },
 
       error: (error) => {
-        if (error.error?.errors) {
-          const problem = error.error as ValidationProblemDetails;
-          this.validationErrors = problem.errors;
+        if (error.validationErrors) {
+          this.validationErrors = error.validationErrors;
           return;
         }
-        this.apiError = error.error?.detail ?? 'An unexpected error occured while updating the note.';
+        this.apiError.set(error.detail);
       }
     })
   }

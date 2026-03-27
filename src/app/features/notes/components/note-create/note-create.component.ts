@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -7,6 +7,7 @@ import { NoteCreateForm } from './note-create.form';
 import { NoteService } from '../../services/note.service';
 import { NoteCreateModel } from '../../models/note-create.model';
 import { ValidationProblemDetails } from '../../../../core/models/problem-details.model';
+import { AppHttpError } from '../../../../core/models/app-http-error.model';
 
 @Component({
   selector: 'note-create',
@@ -15,7 +16,7 @@ import { ValidationProblemDetails } from '../../../../core/models/problem-detail
   templateUrl: './note-create.component.html',
   styleUrl: './note-create.component.css',
 })
-export class NoteCreateComponent {
+export class NoteCreateComponent implements OnInit {
 
   noteCreateForm: FormGroup<NoteCreateForm>;
   validationErrors: Record<string, string[]> = {};
@@ -41,9 +42,13 @@ export class NoteCreateComponent {
         ]
       }),
 
-      content: this.formBuilder.control(null),
+      content: this.formBuilder.control(null, {
+        nonNullable: false
+      }),
 
-      tags: this.formBuilder.control(null),
+      tags: this.formBuilder.control(null, {
+        nonNullable:false
+      }),
 
       teamId: this.formBuilder.control(this.teamId(), {
         nonNullable: true,
@@ -90,12 +95,11 @@ export class NoteCreateComponent {
       },
 
       error: (error) => {
-        if (error.error?.errors) {
-          const problem = error.error as ValidationProblemDetails;
-          this.validationErrors = problem.errors;
+        if (error.validationErrors) {
+          this.validationErrors = error.validationErrors;
           return;
         }
-        this.apiError.set(error.error?.detail ?? 'An unexpected error occured while creating the note.');
+        this.apiError.set(error.detail);
       }
     })
   }

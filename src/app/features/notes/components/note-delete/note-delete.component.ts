@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { NoteReadModel } from '../../models/note-read.model';
 import { NoteService } from '../../services/note.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './note-delete.component.html',
   styleUrl: './note-delete.component.css',
 })
-export class NoteDeleteComponent {
+export class NoteDeleteComponent implements OnInit {
 
   noteReadModel = signal<NoteReadModel | null>(null);
   apiError = signal<string | null>(null);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { NoteFilterForm } from './note-filter.form';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NoteFilterModel } from '../../models/note-filter.model';
 import { NoteReadModel } from '../../models/note-read.model';
 import { ValidationProblemDetails } from '../../../../core/models/problem-details.model';
+import { AppHttpError } from '../../../../core/models/app-http-error.model';
 
 @Component({
   selector: 'note-filter',
@@ -13,7 +14,7 @@ import { ValidationProblemDetails } from '../../../../core/models/problem-detail
   templateUrl: './note-filter.component.html',
   styleUrl: './note-filter.component.css',
 })
-export class NoteFilterComponent {
+export class NoteFilterComponent implements OnChanges {
 
   noteFilterForm: FormGroup<NoteFilterForm>;
 
@@ -48,10 +49,6 @@ export class NoteFilterComponent {
       updatedAtUtc: this.formBuilder.control(null)      
 
     });
-  }
-
-  ngOnInit(): void {
-    this.initializeDatalists();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -109,12 +106,11 @@ export class NoteFilterComponent {
       },
 
       error: (error) => {
-        if (error.error?.errors) {
-          const problem = error.error as ValidationProblemDetails;
-          this.validationErrors = problem.errors;
+        if (error.validationErrors) {
+          this.validationErrors = error.validationErrors;
           return;
         }
-        this.apiError.set(error.error?.detail ?? 'An unexpected error occured while filterig the notes.');
+        this.apiError.set(error.detail);
       }
 
     });
