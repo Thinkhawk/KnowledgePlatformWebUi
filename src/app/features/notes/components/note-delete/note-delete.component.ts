@@ -4,7 +4,7 @@ import { NoteService } from '../../services/note.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AppHttpError } from '../../../../core/models/app-http-error.model';
 import { NoteDeleteModel } from '../../models/note-delete.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'note-delete',
@@ -23,7 +23,8 @@ export class NoteDeleteComponent implements OnInit {
   constructor(
     private noteService: NoteService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location:Location
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +59,8 @@ export class NoteDeleteComponent implements OnInit {
     this.noteService.remove(this.noteId()!,noteDeleteModel).subscribe({
       next: () => {
         this.router.navigate(['/', this.noteReadModel()?.teamId])
+        setTimeout(() => window.location.reload(), 1);
+        
       },
       error: (error) => {
         if (error.isConcurrencyError) {
@@ -70,6 +73,6 @@ export class NoteDeleteComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['../'], { relativeTo: this.activatedRoute })
+    this.location.back();
   }
 }
