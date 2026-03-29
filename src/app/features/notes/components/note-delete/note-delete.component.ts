@@ -8,7 +8,7 @@ import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'note-delete',
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule],
   templateUrl: './note-delete.component.html',
   styleUrl: './note-delete.component.css',
 })
