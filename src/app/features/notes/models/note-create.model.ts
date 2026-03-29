@@ -4,6 +4,6 @@ export interface NoteCreateModel {
   content: string | null;
   tags: string[] | null;
   teamId: number;
-  userId: string;
+  creatorId: string;
 
 }

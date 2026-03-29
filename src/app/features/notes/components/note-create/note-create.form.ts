@@ -6,6 +6,5 @@ export interface NoteCreateForm {
   content: FormControl<string | null>;
   tags: FormControl<string | null>;
   teamId: FormControl<number | null>;
-  userId: FormControl<string | null>;
 
 }

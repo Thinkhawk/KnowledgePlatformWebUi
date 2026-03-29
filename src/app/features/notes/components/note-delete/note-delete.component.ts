@@ -27,7 +27,7 @@ export class NoteDeleteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.noteId.set(String(this.activatedRoute.snapshot.paramMap.get('noteId')));
+    this.noteId.set(String(this.activatedRoute.snapshot.paramMap.get('noteId') ?? this.activatedRoute.parent?.snapshot.paramMap.get('noteId')));
     this.loadNotes();
   }
 
@@ -69,4 +69,7 @@ export class NoteDeleteComponent implements OnInit {
     })
   }
 
+  onCancel(): void {
+    this.router.navigate(['../'], { relativeTo: this.activatedRoute })
+  }
 }

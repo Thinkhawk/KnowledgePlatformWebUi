@@ -1,126 +1,79 @@
-<div class="container mt-4">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-11 col-lg-12">
 
-    <h2>Create Note</h2>
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body p-4 p-md-5">
 
-    <!-- API Error -->
-    <div *ngIf="apiError()" class="alert alert-danger">
-        {{ apiError() }}
+                    <div class="mb-4">
+                        <h4 class="fw-bold text-dark mb-1">Create Note</h4>
+                        <p class="text-muted small">Enter the details below to add a new note to your team.</p>
+                    </div>
+
+                    <div *ngIf="apiError()" class="alert alert-danger border-0 small py-2 mb-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {{ apiError() }}
+                    </div>
+
+                    <form [formGroup]="noteCreateForm" (ngSubmit)="onSubmit()" novalidate>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Title</label>
+                            <input type="text"
+                                   class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
+                                   formControlName="title"
+                                   placeholder="e.g., Project Roadmap">
+                            <div class="position-absolute top-0 end-0 p-4 d-none d-sm-block mt-4 me-4">
+                                <div class="text-end">
+                                    <span class="badge bg-light text-secondary border px-3 py-2 fw-bold">TEAM ID: {{ teamId() }}</span>
+                                </div>
+                            </div>
+                            <div class="text-danger x-small mt-1"
+                                 *ngIf="(noteCreateForm.controls.title.touched && noteCreateForm.controls.title.invalid) || validationErrors()?.['Title']">
+                                <span *ngIf="noteCreateForm.controls.title.errors?.['required']">Title is required.</span>
+                                <span *ngIf="noteCreateForm.controls.title.errors?.['minlength']">Minimum 2 characters required.</span>
+                                <span *ngIf="validationErrors()?.['Title']">{{ validationErrors()?.['Title']?.[0] }}</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Content</label>
+                            <textarea class="form-control border-light-subtle bg-light-subtle shadow-none"
+                                      rows="15"
+                                      formControlName="content"
+                                      placeholder="Start typing your note..."></textarea>
+
+                            <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Content']">
+                                {{ validationErrors()?.['Content']?.[0] }}
+                            </div>
+                        </div>
+                        <br />
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Tags</label>
+                            <input type="text"
+                                   class="form-control border-light-subtle bg-light-subtle shadow-none"
+                                   formControlName="tags"
+                                   placeholder="#tag1 #tag2">
+                            <div class="form-text x-small text-muted">Separate tags with the '#' symbol.</div>
+
+                            <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Tags']">
+                                {{ validationErrors()?.['Tags']?.[0] }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-2">
+                            <button class="btn btn-primary px-4 py-2 fw-bold shadow-sm" type="submit" [disabled]="noteCreateForm.invalid">
+                                Save Note
+                            </button>
+                            <a [routerLink]="['/', teamId()]" class="btn btn-link text-muted text-decoration-none px-3">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <form [formGroup]="noteCreateForm" (ngSubmit)="onSubmit()" novalidate>
-
-        <div class="mb-3">
-
-            <label class="form-label">Title</label>
-            <input type="text" class="form-control" formControlName="title">
-
-            <!-- Client validation -->
-            <div class="text-danger"
-                 *ngIf="noteCreateForm.controls.title.touched && noteCreateForm.controls.title.errors">
-
-                <div *ngIf="noteCreateForm.controls.title.errors['required']">
-                    Title is required.
-                </div>
-
-                <div *ngIf="noteCreateForm.controls.title.errors['minlength']">
-                    Title must be at least 2 characters.
-                </div>
-
-                <div *ngIf="noteCreateForm.controls.title.errors['maxlength']">
-                    Title cannot exceed 100 characters.
-                </div>
-
-            </div>
-
-            <!-- Server validation -->
-            <div class="text-danger" *ngIf="validationErrors['Title']">
-                {{ validationErrors['Title'][0] }}
-            </div>
-
-        </div>
-
-
-        <!-- Content -->
-        <div class="mb-3">
-
-            <label class="form-label">Content</label>
-
-            <textarea class="form-control" rows="3"
-                      formControlName="content">
-            </textarea>
-
-            <!-- Server validation -->
-            <div class="text-danger" *ngIf="validationErrors['Content']">
-                {{ validationErrors['Content'][0] }}
-            </div>
-
-        </div>
-
-        <!-- Tags -->
-        <div class="mb-3">
-
-            <label class="form-label">Tags</label>
-            <input type="text" class="form-control" formControlName="tags">
-
-            <!-- Server validation -->
-            <div class="text-danger" *ngIf="validationErrors['Tags']">
-                {{ validationErrors['Tags'][0] }}
-            </div>
-
-        </div>
-
-        <!-- TeamID -->
-        <div class="mb-3">
-
-            <label class="form-label">TeamId</label>
-            <input type="text" class="form-control" formControlName="teamId" readonly>
-
-            <!-- Client validation -->
-            <div class="text-danger"
-                 *ngIf="noteCreateForm.controls.teamId.touched && noteCreateForm.controls.teamId.errors">
-
-                <div *ngIf="noteCreateForm.controls.teamId.errors['required']">
-                    TeamId is required.
-                </div>
-            </div>
-
-            <!-- Server validation -->
-            <div class="text-danger" *ngIf="validationErrors['TeamId']">
-                {{ validationErrors['TeamId'][0] }}
-            </div>
-
-        </div>
-
-        <!-- UserId -->
-        <div class="mb-3">
-
-            <label class="form-label">UserId</label>
-            <input type="text" class="form-control" formControlName="userId">
-
-            <!-- Client validation -->
-            <div class="text-danger"
-                 *ngIf="noteCreateForm.controls.userId.touched && noteCreateForm.controls.userId.errors">
-
-                <div *ngIf="noteCreateForm.controls.userId.errors['required']">
-                    UserId is required.
-                </div>
-            </div>
-
-            <!-- Server validation -->
-            <div class="text-danger" *ngIf="validationErrors['UserId']">
-                {{ validationErrors['UserId'][0] }}
-            </div>
-
-        </div>
-
-        <button class="btn btn-primary" type="submit">
-            Create
-        </button>
-
-        <a [routerLink]="['/',teamId()]" class="btn btn-secondary ms-2">
-            Cancel
-        </a>
-
-    </form>
-
 </div>

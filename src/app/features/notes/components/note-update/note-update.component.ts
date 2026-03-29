@@ -6,8 +6,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NoteUpdateModel } from '../../models/note-update.model';
 import { NoteReadModel } from '../../models/note-read.model';
 import { AppHttpError } from '../../../../core/models/app-http-error.model';
-import { ValidationProblemDetails } from '../../../../core/models/problem-details.model';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'note-update',
@@ -18,20 +18,20 @@ import { CommonModule } from '@angular/common';
 export class NoteUpdateComponent implements OnInit {
 
   noteUpdateForm: FormGroup<NoteUpdateForm>;
-  validationErrors: Record<string, string[]> = {};
+  validationErrors = signal<Record<string, string[]> | null>(null);
 
   noteReadModel = signal<NoteReadModel | null>(null);
   apiError = signal<string | null>(null);
   concurrencyError = signal<string | null>(null);
   noteId = signal<string | null>(null);
   teamId = signal<number | null>(null);
-  userId = signal<string | null>("null");
 
   private rowVersion!: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private noteService: NoteService,
+    private authService: AuthService,
     private router: Router,
     private activatedRoute:ActivatedRoute
   ) {
@@ -41,28 +41,14 @@ export class NoteUpdateComponent implements OnInit {
         nonNullable: true,
         validators: [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(2),
           Validators.maxLength(100)
         ]
       }),
 
       content: this.formBuilder.control(null),
 
-      tags: this.formBuilder.control(null),
-
-      teamId: this.formBuilder.control(this.teamId(), {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ]
-      }),
-
-      userId: this.formBuilder.control(this.userId(), {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ]
-      })
+      tags: this.formBuilder.control(null)
 
     })
   }
@@ -81,9 +67,7 @@ export class NoteUpdateComponent implements OnInit {
         this.noteUpdateForm.patchValue({
           title: data.title,
           content: data.content,
-          tags: data.tags?.join("#"),
-          teamId: this.teamId(),
-          userId: this.userId()
+          tags: '#'+data.tags?.join(" #"),
         });
       },
       error: (error: AppHttpError) => {
@@ -110,7 +94,8 @@ export class NoteUpdateComponent implements OnInit {
       noteId: this.noteReadModel()!.noteId,
       title: this.noteUpdateForm.controls.title.value,
       content: this.noteUpdateForm.controls.content.value,
-      tags: this.noteUpdateForm.controls.tags.value?.split('#') ?? null,
+      tags: this.noteUpdateForm.controls.tags.value?.replaceAll(" ","").split('#') ?? null,
+      updaterId: this.authService.getPayload()?.unique_name!,
       rowVersion: this.noteReadModel()!.rowVersion
     };
 
@@ -121,7 +106,7 @@ export class NoteUpdateComponent implements OnInit {
 
       error: (error) => {
         if (error.validationErrors) {
-          this.validationErrors = error.validationErrors;
+          this.validationErrors.set(error.validationErrors);
           return;
         }
         this.apiError.set(error.detail);

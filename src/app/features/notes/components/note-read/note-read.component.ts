@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { NoteService } from '../../services/note.service';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NoteReadModel } from '../../models/note-read.model';
@@ -19,7 +19,7 @@ export class NoteReadComponent implements OnInit{
   apiError = signal<string | null>(null);
   noteReadModels = signal<NoteReadModel[]>([]);
   teamId = signal<number | null>(null);
-  hasWriteAccess = signal<boolean>(false);
+  hasCreateAccess = signal<boolean>(false);
 
   constructor(
     private router: Router,
@@ -34,13 +34,19 @@ export class NoteReadComponent implements OnInit{
   ngOnInit(): void {
     this.teamId.set(Number(this.activatedRoute.snapshot.paramMap.get('teamId')));
     this.loadNotes();
-    this.setWriteAccess();
+    this.setCreateAccess();
   }
 
-  setWriteAccess() {
+  setCreateAccess() {
     let chk1 = this.userAccessService.getTeamAccessMap().get(this.teamId()!) == 1;
     let chk2 = this.userAccessService.getPayload()![0].hasFullProjectControl;
-    this.hasWriteAccess.set(chk1||chk2);
+    this.hasCreateAccess.set(chk1||chk2);
+  } 
+
+  hasEditDeleteAccess(noteCreatorCheck:boolean):boolean{
+    let writeAccessCheck = this.userAccessService.getTeamAccessMap().get(this.teamId()!) == 1;
+    let fullControlCheck = this.userAccessService.getPayload()![0].hasFullProjectControl;
+    return ((noteCreatorCheck && writeAccessCheck) || fullControlCheck);
   }
 
   loadNotes() {

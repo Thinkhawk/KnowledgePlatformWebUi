@@ -5,8 +5,11 @@ export interface NoteReadModel {
   content: string | null;
   tags: string[] | null;
   teamId: number;
-  userId: string;
+  creatorId: string;
+  creatorName: string;
   createdAtUtc: Date;
+  updaterId: string;
+  updaterName: string;
   updatedAtUtc: Date;
   rowVersion: string;
 

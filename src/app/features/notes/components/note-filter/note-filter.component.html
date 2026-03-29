@@ -1,10 +1,14 @@
 <div class="card bg-white border shadow-sm mb-3">
-    <div class="card-body p-2">
-        <form [formGroup]="noteFilterForm" (ngSubmit)="onSubmit()" class="row g-2 align-items-center">
+    <div *ngIf="apiError() || validationErrors()" class="alert alert-danger">
+        {{ apiError() }}
+    </div>
 
-            <div class="col">
+    <div class="card-body p-3">
+        <form [formGroup]="noteFilterForm" (ngSubmit)="onSubmit()" class="row g-3">
+
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">ID</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">ID</span>
                     <input type="text" class="form-control" formControlName="noteId" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
@@ -13,11 +17,14 @@
                         }
                     </ul>
                 </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['noteId']">
+                    {{ validationErrors()?.['noteId']?.[0] }}
+                </div>
             </div>
 
-            <div class="col">
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">TITLE</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">TITLE</span>
                     <input type="text" class="form-control" formControlName="title" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
@@ -26,24 +33,46 @@
                         }
                     </ul>
                 </div>
-            </div>
-
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">USER</span>
-                    <input type="text" class="form-control" formControlName="userId" placeholder="...">
-                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (u of distinctUserIds; track u) {
-                        <li><a class="dropdown-item small" (click)="setControlValue('userId', u)">{{u}}</a></li>
-                        }
-                    </ul>
+                <div class="text-danger small" *ngIf="validationErrors()?.['title']">
+                    {{ validationErrors()?.['title']?.[0] }}
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">CREATOR</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">TAG</span>
+                    <input type="text" class="form-control" formControlName="creatorName" placeholder="...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (u of distinctCreators; track u) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('creatorName', u)">{{u}}</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['creatorName']">
+                    {{ validationErrors()?.['creatorName']?.[0] }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">UPDATER</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" formControlName="updaterName" placeholder="...">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
+                        @for (u of distinctUpdaters; track u) {
+                        <li><a class="dropdown-item small" (click)="setControlValue('updaterName', u)">{{u}}</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['updaterName']">
+                    {{ validationErrors()?.['updaterName']?.[0] }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">TAG</label>
+                <div class="input-group input-group-sm">
                     <input type="text" class="form-control" formControlName="tags" placeholder="#...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
@@ -52,11 +81,14 @@
                         }
                     </ul>
                 </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['tags']">
+                    {{ validationErrors()?.['tags']?.[0] }}
+                </div>
             </div>
 
-            <div class="col">
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">CREATED</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">CREATED</span>
                     <input type="date" class="form-control" formControlName="createdAtUtc">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
@@ -65,11 +97,14 @@
                         }
                     </ul>
                 </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['createdAtUtc']">
+                    {{ validationErrors()?.['createdAtUtc']?.[0] }}
+                </div>
             </div>
 
-            <div class="col">
+            <div class="col-md-3">
+                <label class="form-label small fw-bold text-muted mb-1">UPDATED</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light text-muted small px-2">UPDATED</span>
                     <input type="date" class="form-control" formControlName="updatedAtUtc">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
@@ -78,14 +113,17 @@
                         }
                     </ul>
                 </div>
+                <div class="text-danger small" *ngIf="validationErrors()?.['updatedAtUtc']">
+                    {{ validationErrors()?.['updatedAtUtc']?.[0] }}
+                </div>
             </div>
 
-            <div class="col-auto">
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-sm btn-outline-primary px-3 shadow-sm py-1">
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="btn-group w-100">
+                    <button type="submit" class="btn btn-sm btn-dark shadow-sm">
                         Filter
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary text-muted py-0" (click)="noteFilterForm.reset()">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onClear()">
                         Clear
                     </button>
                 </div>

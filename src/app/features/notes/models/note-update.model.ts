@@ -4,6 +4,7 @@ export interface NoteUpdateModel {
   title: string;
   content: string | null;
   tags: string[] | null;
+  updaterId: string;
   rowVersion: string;
 
 }

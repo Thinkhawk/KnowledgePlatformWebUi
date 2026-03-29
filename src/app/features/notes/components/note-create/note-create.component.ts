@@ -6,8 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NoteCreateForm } from './note-create.form';
 import { NoteService } from '../../services/note.service';
 import { NoteCreateModel } from '../../models/note-create.model';
-import { ValidationProblemDetails } from '../../../../core/models/problem-details.model';
-import { AppHttpError } from '../../../../core/models/app-http-error.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'note-create',
@@ -19,7 +18,7 @@ import { AppHttpError } from '../../../../core/models/app-http-error.model';
 export class NoteCreateComponent implements OnInit {
 
   noteCreateForm: FormGroup<NoteCreateForm>;
-  validationErrors: Record<string, string[]> = {};
+  validationErrors=signal<Record<string, string[]>|null>(null);
   apiError = signal<string | null>(null);
 
   teamId=signal<number | null>(null);
@@ -28,6 +27,7 @@ export class NoteCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private noteService: NoteService,
+    private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -55,13 +55,6 @@ export class NoteCreateComponent implements OnInit {
         validators: [
           Validators.required
         ]
-      }),
-
-      userId: this.formBuilder.control(this.userId(), {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ]
       })
 
     })
@@ -84,9 +77,9 @@ export class NoteCreateComponent implements OnInit {
     const model: NoteCreateModel = {
       title: this.noteCreateForm.controls.title.value,
       content: this.noteCreateForm.controls.content.value,
-      tags: this.noteCreateForm.controls.tags.value?.split('#') ?? null,
+      tags: this.noteCreateForm.controls.tags.value?.replaceAll(" ","").split('#') ?? null,
       teamId: this.noteCreateForm.controls.teamId.value!,
-      userId: this.noteCreateForm.controls.userId.value!,
+      creatorId: this.authService.getPayload()?.unique_name!
     }
 
     this.noteService.create(model).subscribe({
@@ -96,12 +89,15 @@ export class NoteCreateComponent implements OnInit {
 
       error: (error) => {
         if (error.validationErrors) {
-          this.validationErrors = error.validationErrors;
+          this.validationErrors.set(error.validationErrors);
           return;
         }
         this.apiError.set(error.detail);
       }
     })
+
+    console.log(this.noteCreateForm.invalid);
+
   }
 
 }

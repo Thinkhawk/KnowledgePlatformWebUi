@@ -5,12 +5,11 @@ import { NoteService } from '../../services/note.service';
 import { Router } from '@angular/router';
 import { NoteFilterModel } from '../../models/note-filter.model';
 import { NoteReadModel } from '../../models/note-read.model';
-import { ValidationProblemDetails } from '../../../../core/models/problem-details.model';
-import { AppHttpError } from '../../../../core/models/app-http-error.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'note-filter',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './note-filter.component.html',
   styleUrl: './note-filter.component.css',
 })
@@ -23,12 +22,13 @@ export class NoteFilterComponent implements OnChanges {
   @Output() filterEvent = new EventEmitter<NoteReadModel[]>();
 
   apiError = signal<string | null>(null);
-  validationErrors: Record<string, string[]> = {};
+  validationErrors = signal<Record<string, string[]> | null>(null);
 
   distinctNoteIds: string[] = [];
   distinctTitles: string[] = [];
   distinctTags: string[] = [];
-  distinctUserIds: string[] = [];
+  distinctCreators: string[] = [];
+  distinctUpdaters: string[] = [];
   distinctCreatedAtUtc: string[] = [];
   distinctUpdatedAtUtc: string[] = [];
 
@@ -44,7 +44,8 @@ export class NoteFilterComponent implements OnChanges {
       noteId: this.formBuilder.control(null),
       title: this.formBuilder.control(null),
       tags: this.formBuilder.control(null),
-      userId: this.formBuilder.control(null),
+      creatorName: this.formBuilder.control(null),
+      updaterName: this.formBuilder.control(null),
       createdAtUtc: this.formBuilder.control(null),
       updatedAtUtc: this.formBuilder.control(null)      
 
@@ -63,7 +64,8 @@ export class NoteFilterComponent implements OnChanges {
     if (this.noteReadModels && this.distinctTitles.length === 0) {
       this.distinctNoteIds = [...new Set(this.noteReadModels.map(n => n.noteId).filter(Boolean))];
       this.distinctTitles = [...new Set(this.noteReadModels.map(n => n.title).filter(Boolean))];
-      this.distinctUserIds = [...new Set(this.noteReadModels.map(n => n.userId).filter(Boolean))];
+      this.distinctCreators = [...new Set(this.noteReadModels.map(n => n.creatorName).filter(Boolean))];
+      this.distinctUpdaters = [...new Set(this.noteReadModels.map(n => n.updaterName).filter(Boolean))];
 
 
       this.distinctCreatedAtUtc = [...new Set(this.noteReadModels
@@ -93,7 +95,8 @@ export class NoteFilterComponent implements OnChanges {
       noteId: this.noteFilterForm.controls.noteId.value,
       title: this.noteFilterForm.controls.title.value,
       tags: this.noteFilterForm.controls.tags.value?.split("#") ?? null,
-      userId: this.noteFilterForm.controls.userId.value,
+      creatorName: this.noteFilterForm.controls.creatorName.value,
+      updaterName: this.noteFilterForm.controls.updaterName.value,
       createdAtUtc: this.noteFilterForm.controls.createdAtUtc.value,
       updatedAtUtc: this.noteFilterForm.controls.updatedAtUtc.value,
     }
@@ -107,7 +110,7 @@ export class NoteFilterComponent implements OnChanges {
 
       error: (error) => {
         if (error.validationErrors) {
-          this.validationErrors = error.validationErrors;
+          this.validationErrors.set(error.validationErrors);
           return;
         }
         this.apiError.set(error.detail);
@@ -116,4 +119,8 @@ export class NoteFilterComponent implements OnChanges {
     });
   }
 
+  onClear() {
+    this.noteFilterForm.reset();
+    this.onSubmit();
+  }
 }

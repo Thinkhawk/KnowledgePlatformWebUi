@@ -6,13 +6,13 @@ import { NoteCreateComponent } from './features/notes/components/note-create/not
 import { NoteDeleteComponent } from './features/notes/components/note-delete/note-delete.component';
 import { NoteUpdateComponent } from './features/notes/components/note-update/note-update.component';
 import { authGuard } from './core/guards/auth-guard';
-import { permissionGuard } from './core/guards/permission-guard';
+import { NoteViewComponent } from './features/notes/components/note-view/note-view.component';
+import { noteGuard } from './core/guards/note-guard';
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [authGuard]
+    component: LoginComponent
   },
   {
     path: 'create-user',
@@ -22,24 +22,36 @@ export const routes: Routes = [
   {
     path: ':teamId',
     component: NoteReadComponent,
-  canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: 'delete/:noteId',
         component: NoteDeleteComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard,noteGuard]
       }
     ]
   },
   {
     path: ':teamId/createNote',
     component: NoteCreateComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard, noteGuard]
   },
   {
     path: ':teamId/edit/:noteId',
     component: NoteUpdateComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard,noteGuard]
+  },
+  {
+    path: ':teamId/view/:noteId',
+    component: NoteViewComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'delete',
+        component: NoteDeleteComponent,
+        canActivate: [authGuard, noteGuard]
+      }
+    ]
   },
   {
     path: '',
