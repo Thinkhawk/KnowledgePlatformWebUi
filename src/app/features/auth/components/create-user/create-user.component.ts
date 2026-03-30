@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService, CreateUserDto } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { CreateUserModel } from '../../../../core/models/auth.model';
 
 @Component({
   selector: 'app-create-user',
@@ -43,7 +44,7 @@ export class CreateUserComponent {
     this.loading = true;
     this.error = undefined;
 
-    const dto = this.form.value as CreateUserDto;
+    const dto = this.form.value as CreateUserModel;
     this.auth['createUser'] ? this.auth['createUser'](dto).subscribe({
       next: res => {
         this.message = res;

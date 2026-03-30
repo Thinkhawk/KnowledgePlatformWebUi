@@ -1,0 +1,15 @@
+.x-small {
+  font-size: 0.75rem;
+}
+
+.note-content p {
+  letter-spacing: 0.015rem;
+}
+
+.card {
+  background-color: #ffffff;
+}
+
+.badge {
+  letter-spacing: 0.03rem;
+}

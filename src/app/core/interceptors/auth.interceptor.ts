@@ -1,25 +1,34 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { inject } from '@angular/core';
+import { AppConfig } from '../config/app-config.interface';
+import { APP_CONFIG } from '../config/app-config.token';
+import { AuthService } from '../services/auth.service';
 
-/**
- * Attaches Authorization header with Bearer token from localStorage.
- * On 401 it clears the token and redirects to the login page.
- */
+
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('auth_token');
+  const authService = inject(AuthService);
+  const config = inject<AppConfig>(APP_CONFIG);
 
-  const authReq = token
-    ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
-    : req;
+  if (!req.url.startsWith(config.apiBaseUrl)) {
+    return next(req);
+  }
 
-  return next(authReq).pipe(
-    catchError((err: any) => {
-      if (err && err.status === 401) {
-        try { localStorage.removeItem('auth_token'); } catch { }
-        try { window.location.href = '/login'; } catch { }
-      }
-      return throwError(() => err);
-    })
-  );
+  const token = authService.getToken();
+
+  if (!token) {
+    return next(req);
+  }
+
+
+  const authReq = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+
+  /** Forward the modified request. */
+  return next(authReq);
 };

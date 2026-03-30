@@ -38,14 +38,6 @@ export class ApiBaseService {
   }
 
   /**
-   * Performs HTTP POST request and returns the response.
-   */
-  public postFor<T>(endpoint: string, body: unknown): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}${endpoint}`, body);
-  }
-
-
-  /**
    * Performs HTTP PUT request.
    */
   protected put<T>(endpoint: string, body: unknown): Observable<T> {
