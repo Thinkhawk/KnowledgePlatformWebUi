@@ -30,7 +30,7 @@
         <td>{{ u.email }}</td>
         <td>{{ u.fullName }}</td>
         <td>{{ u.roles.join(', ') }}</td>
-        <td class="text-end">
+        <td class="text-end d-flex">
           <div *ngIf="isSeededAdmin()">
             <button class="btn btn-sm btn-secondary me-2" *ngIf="editingUsername() !== u.username" (click)="startEdit(u)">Edit Role</button>
             <div *ngIf="editingUsername() === u.username" class="d-inline-block me-2">
