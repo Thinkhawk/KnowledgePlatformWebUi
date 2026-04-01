@@ -2,83 +2,82 @@
 
 <div *ngIf="team" class="mt-3">
 
-  <!-- Team Header -->
-  <div class="d-flex justify-content-between align-items-start mb-3">
-    <div>
-      <h4><app-icon name="team" [size]="22" class="me-2"></app-icon>{{ team.name }}</h4>
-      <p class="text-muted mb-0">{{ members.length }} member(s)</p>
-    </div>
-    <div *ngIf="isLead" class="d-flex gap-2">
-      <button class="btn-theme-outline" (click)="editTeam()">✏ Edit</button>
-      <button class="btn-theme-danger" (click)="confirmDeleteTeam()">🗑 Delete</button>
-    </div>
-  </div>
-
-  <hr />
-
-  <!-- Members Section (visible to Leads/Managers only) -->
-  <div *ngIf="isLead">
-    <div class="page-header">
-      <h5>Members</h5>
-      <button class="btn-theme" (click)="toggleAddMember()">
-        {{ showAddMember ? '− Cancel' : '+ Add Member' }}
-      </button>
-    </div>
-
-    <!-- Add Member Panel -->
-    <div *ngIf="showAddMember" class="mb-3">
-      <app-assign-user
-        [teamId]="teamId"
-        (memberAssigned)="onMemberAssigned()"
-        (cancelled)="showAddMember = false">
-      </app-assign-user>
-    </div>
-
-    <!-- Members Table -->
-    <table class="table table-hover" *ngIf="members.length > 0">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Access</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let member of members">
-          <td>{{ member.userName || 'N/A' }}</td>
-          <td>{{ member.email || member.userId }}</td>
-          <td>
-            <span class="badge"
-                  [ngClass]="member.accessLevel === 1 ? 'bg-success' : 'bg-secondary'">
-              {{ member.accessLevel }}
-            </span>
-          </td>
-          <td>
-            <button class="btn-theme-danger-outline"
-                    (click)="confirmRemoveMember(member)">✕</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div *ngIf="members.length === 0" class="text-muted mb-3">
-      No members assigned yet.
+    <!-- Team Header -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h4><app-icon name="team" [size]="22" class="me-2"></app-icon>{{ team.name }}</h4>
+        </div>
+        <div *ngIf="isLead" class="d-flex gap-2">
+            <button class="btn-theme-outline" (click)="toggleMembersSection()"> {{showMembersSection ? 'Hide' : 'Show'}} Members ({{ members.length }})</button>
+            <button class="btn-theme-outline" (click)="editTeam()">✏ Edit</button>
+            <button class="btn-theme-danger" (click)="confirmDeleteTeam()">🗑 Delete</button>
+        </div>
     </div>
 
     <hr />
-  </div>
 
-  <!-- Knowledge Notes Section (placeholder for Member 3) -->
-  <div class="page-header">
-    <h5>Knowledge Notes</h5>
-  </div>
+    <!-- Members Section (visible to Leads/Managers only) -->
+    @if(showMembersSection){
+    <div *ngIf="isLead">
+        <div class="page-header">
+            <h5>Members</h5>
+            <button class="btn-theme" (click)="toggleAddMember()">
+                {{ showAddMember ? '− Cancel' : '+ Add Member' }}
+            </button>
+        </div>
 
-  <router-outlet></router-outlet>
+        <!-- Add Member Panel -->
+        <div *ngIf="showAddMember" class="mb-3">
+            <app-assign-user [teamId]="teamId"
+                             (memberAssigned)="onMemberAssigned()"
+                             (cancelled)="showAddMember = false">
+            </app-assign-user>
+        </div>
 
-  <div *ngIf="isMember" class="mt-3">
-    <small class="text-muted">ℹ You can only edit your own notes.</small>
-  </div>
+        <!-- Members Table -->
+        <table class="table table-hover" *ngIf="members.length > 0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Access</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let member of members">
+                    <td>{{ member.userName || 'N/A' }}</td>
+                    <td>{{ member.email || member.userId }}</td>
+                    <td>
+                        <span class="badge"
+                              [ngClass]="member.accessLevel === 1 ? 'bg-success' : 'bg-secondary'">
+                            {{ member.accessLevel }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-theme-danger-outline"
+                                (click)="confirmRemoveMember(member)">
+                            ✕
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="members.length === 0" class="text-muted mb-3">
+            No members assigned yet.
+        </div>
+
+        <hr />
+    </div>
+    }
+    <!-- Knowledge Notes Section (placeholder for Member 3) -->
+
+    <router-outlet></router-outlet>
+
+    <div *ngIf="isMember" class="mt-3">
+        <small class="text-muted">ℹ You can only edit your own notes.</small>
+    </div>
 
 </div>
 

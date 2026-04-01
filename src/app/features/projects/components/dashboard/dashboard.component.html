@@ -1,29 +1,37 @@
-<h4>Welcome back, {{ userName }} 👋</h4>
+<div class="d-flex justify-content-between">
+    <h4>Welcome back, {{ userName }} 👋</h4>
+    <div class="btn-group">
+        <a *ngIf="authService.isSeededAdmin()" [routerLink]="['/users']" class="btn btn-sm btn-theme-outline px-3">Manage Users</a>
+        <a *ngIf="authService.isLead()" [routerLink]="['/create-user']" class="btn btn-sm btn-theme-outline px-3">Create User</a>
+        <a [routerLink]="['/change-password']" class="btn btn-sm btn-theme-outline px-3">Change Password</a>
+    </div>
+
+</div>
 <hr />
 
 <!-- Summary Cards -->
 <div class="summary-cards">
-  <div class="summary-card">
-    <div class="icon">
-      <app-icon name="project" [size]="32" [strokeWidth]="1.8"></app-icon>
+    <div class="summary-card">
+        <div class="icon">
+            <app-icon name="project" [size]="32" [strokeWidth]="1.8"></app-icon>
+        </div>
+        <div class="count">{{ projectCount }}</div>
+        <div class="label">Projects</div>
     </div>
-    <div class="count">{{ projectCount }}</div>
-    <div class="label">Projects</div>
-  </div>
-  <div class="summary-card">
-    <div class="icon">
-      <app-icon name="team" [size]="32" [strokeWidth]="1.8"></app-icon>
+    <div class="summary-card">
+        <div class="icon">
+            <app-icon name="team" [size]="32" [strokeWidth]="1.8"></app-icon>
+        </div>
+        <div class="count">{{ teamCount }}</div>
+        <div class="label">Teams</div>
     </div>
-    <div class="count">{{ teamCount }}</div>
-    <div class="label">Teams</div>
-  </div>
-  <div class="summary-card">
-    <div class="icon">
-      <app-icon name="notes" [size]="32" [strokeWidth]="1.8"></app-icon>
-    </div>
-    <div class="count">—</div>
-    <div class="label">Notes</div>
-  </div>
+    <!-- <div class="summary-card">
+        <div class="icon">
+            <app-icon name="notes" [size]="32" [strokeWidth]="1.8"></app-icon>
+        </div>
+        <div class="count">—</div>
+        <div class="label">Notes</div>
+    </div> -->
 </div>
 
 <!-- Your Projects -->
@@ -31,34 +39,34 @@
 <hr />
 
 <div *ngFor="let project of projects" class="project-row" (click)="openProject(project.projectId)">
-  <span class="project-row-name">
-    <app-icon name="project" [size]="16" class="row-icon"></app-icon>
-    {{ project.projectName }}
-  </span>
-  <span class="text-muted">{{ project.teams.length }} team(s)</span>
-  <button class="btn-theme-outline" (click)="openProject(project.projectId)">Open →</button>
+    <span class="project-row-name">
+        <app-icon name="project" [size]="16" class="row-icon"></app-icon>
+        {{ project.projectName }}
+    </span>
+    <span class="text-muted">{{ project.teams.length }} team(s)</span>
+    <button class="btn-theme-outline" (click)="openProject(project.projectId)">Open →</button>
 </div>
 
 <div *ngIf="projects.length === 0" class="text-muted mt-3">
-  No projects assigned to you.
+    No projects assigned to you.
 </div>
 
 <!-- Quick Actions -->
 <div class="mt-4">
-  <h5>Quick Actions</h5>
-  <div class="d-flex gap-2 mt-2">
-    <button *ngIf="canCreateProject"
-            class="btn-theme"
-            (click)="router.navigate(['/projects/create'])">
-      + New Project
-    </button>
-    <button class="btn-theme-outline" (click)="router.navigate(['/projects'])">
-      Browse Projects
-    </button>
-    <button *ngIf="canCreateProject"
-            class="btn-theme-outline"
-            (click)="router.navigate(['/admin/users/create'])">
-      + Create User
-    </button>
-  </div>
+    <h5>Quick Actions</h5>
+    <div class="d-flex gap-2 mt-2">
+        <button *ngIf="canCreateProject"
+                class="btn-theme"
+                (click)="router.navigate(['/projects/create'])">
+            + New Project
+        </button>
+        <button class="btn-theme-outline" (click)="router.navigate(['/projects'])">
+            Browse Projects
+        </button>
+        <!-- <button *ngIf="canCreateProject"
+                class="btn-theme-outline"
+                (click)="router.navigate(['/admin/users/create'])">
+            + Create User
+        </button> -->
+    </div>
 </div>

@@ -28,6 +28,7 @@ export class TeamDetailComponent implements OnInit {
   isLead = false;
   isMember = false;
   showAddMember = false;
+  showMembersSection = false;
 
   projectId!: number;
   teamId!: number;
@@ -92,6 +93,10 @@ export class TeamDetailComponent implements OnInit {
 
   toggleAddMember(): void {
     this.showAddMember = !this.showAddMember;
+  }
+
+  toggleMembersSection(): void{
+    this.showMembersSection = !this.showMembersSection;
   }
 
   onMemberAssigned(): void {

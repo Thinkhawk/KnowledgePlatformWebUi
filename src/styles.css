@@ -210,6 +210,33 @@ body {
   color: white;
 }
 
+.btn-theme-warning-outline {
+  padding: 8px 18px;
+  background: transparent;
+  color: goldenrod;
+  border: 1px solid goldenrod;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-block;
+}
+
+  .btn-theme-warning-outline:hover:not(:disabled) {
+    background: goldenrod;
+    color: white;
+  }
+
+.btn-theme-outline-icon {
+  background: transparent;
+  color: #0284c7;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-block;
+}
+
 /* Form refinement */
 .form-control:focus {
   border-color: var(--primary);

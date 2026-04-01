@@ -3,15 +3,21 @@
         {{ apiError() }}
     </div>
 
-    <div class="d-flex justify-content-end mb-3">
-        <button class="btn-theme"
-                [disabled]="!hasCreateAccess()"
-                [routerLink]="['createNote']">
-            + Create Note
-        </button>
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <h5>Knowledge Notes</h5>
+        </div>
+        <div>
+            <button class="btn me-3" (click)="toggleFilter()">{{showFilter ? 'Hide' : 'Show'}} Filters</button>
+            <button class="btn-theme"
+                    [disabled]="!hasCreateAccess()"
+                    [routerLink]="['createNote']">
+                + Create Note
+            </button>
+        </div>
     </div>
 
-    <note-filter [teamId]="teamId()"
+    <note-filter *ngIf="showFilter" [teamId]="teamId()"
                  [noteReadModels]="noteReadModels()"
                  (filterEvent)="handleFilterEvent($event)">
     </note-filter>
@@ -42,8 +48,8 @@
                     @if(hasEditDeleteAccess(note.creatorId == authService.getPayload()?.unique_name)){
                     <div class="card-footer bg-transparent border-top-0">
                         <div class="d-flex justify-content-evenly">
-                            <a class="btn btn-sm btn-outline-primary px-4 py-1 fw-bold shadow-sm" [routerLink]="['edit/', note.noteId]">Edit</a>
-                            <a class="btn btn-sm btn-outline-danger px-4 py-1 fw-bold shadow-sm" [routerLink]="['delete/', note.noteId]">Delete</a>
+                            <a class="btn-sm btn-theme-outline px-4 py-1 fw-bold shadow-sm text-decoration-none" [routerLink]="['edit/', note.noteId]">Edit</a>
+                            <a class=" btn-sm btn-theme-danger-outline px-4 py-1 fw-bold shadow-sm text-decoration-none" [routerLink]="['delete/', note.noteId]">Delete</a>
                         </div>
                     </div>
                     }

@@ -20,6 +20,7 @@ export class NoteReadComponent implements OnInit{
   noteReadModels = signal<NoteReadModel[]>([]);
   teamId = signal<number | null>(null);
   hasCreateAccess = signal<boolean>(false);
+  showFilter: boolean = false;
 
   constructor(
     private router: Router,
@@ -72,4 +73,7 @@ export class NoteReadComponent implements OnInit{
     this.noteReadModels.set(data);
   }
 
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
+  }
 }
