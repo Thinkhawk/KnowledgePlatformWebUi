@@ -4,3 +4,15 @@
 .kp-card .message{color:var(--brand-primary)}
 .kp-card .error{color:#d63333}
 .kp-card .invalid-feedback{color:#d63333}
+
+/* Shared KP helpers */
+.kp-card { background:#fff; border-radius:8px; padding:12px; box-shadow:0 8px 20px rgba(0,0,0,0.04); animation:kpPop .28s ease both; }
+.kp-header { margin-bottom:12px }
+.form-row { gap:10px }
+.fade-in { animation: kpFadeIn .32s ease both }
+
+/* Buttons */
+.kp-btn { background:#0d6efd; color:#fff; padding:8px 12px; border-radius:6px; border:none; cursor:pointer }
+
+@keyframes kpFadeIn { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:none } }
+@keyframes kpPop { from { opacity:0; transform:scale(.985) translateY(6px) } to { opacity:1; transform:none } }

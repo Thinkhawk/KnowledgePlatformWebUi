@@ -20,6 +20,16 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'users',
+    loadComponent: () => import('./features/auth/components/user-list/user-list.component').then(m => m.UserListComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'change-password',
+    loadComponent: () => import('./features/auth/components/change-password/change-password.component').then(m => m.ChangePasswordComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: ':teamId',
     component: NoteReadComponent,
     canActivate: [authGuard],

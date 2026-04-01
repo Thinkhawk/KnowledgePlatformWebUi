@@ -4,31 +4,31 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../../core/services/auth.service';
-import { LoginRequest } from '../../../../core/models/auth.model';
+import { ChangePasswordModel } from '../../../../core/models/auth.model';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-change-password',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.css']
 })
-export class LoginComponent {
+export class ChangePasswordComponent {
   form!: FormGroup;
-
   loading = false;
+  message?: string;
   error?: string;
 
   constructor(
     private fb: FormBuilder,
-    public auth: AuthService,
+    private auth: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -41,16 +41,17 @@ export class LoginComponent {
     this.loading = true;
     this.error = undefined;
 
-    const dto = this.form.value as LoginRequest;
-    this.auth.login(dto).subscribe({
-      next: () => {
-        this.router.navigate(['']); // Ensuring consistent format
-      },
-      error: (err: any) => {
-        this.error = err?.error ?? err?.message ?? 'Login failed';
+    const dto = this.form.value as ChangePasswordModel;
+    this.auth.changePassword(dto).subscribe({
+      next: res => {
+        this.message = res;
         this.loading = false;
+        this.auth.logout();
       },
-      complete: () => this.loading = false
+      error: err => {
+        this.error = err?.error ?? err?.message ?? 'Change password failed';
+        this.loading = false;
+      }
     });
   }
 }

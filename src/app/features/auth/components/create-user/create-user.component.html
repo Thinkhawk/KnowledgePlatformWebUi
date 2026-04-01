@@ -37,6 +37,9 @@
       <button type="submit" class="btn btn-primary kp-btn" [disabled]="loading">{{ loading ? 'Creating...' : 'Create User' }}</button>
     </div>
 
+  <div class="mt-2">
+    <a routerLink="/users">Manage users</a>
+  </div>
     <div *ngIf="message" class="text-success mt-3">{{ message }}</div>
     <div *ngIf="error" class="text-danger mt-3">{{ error }}</div>
   </form>

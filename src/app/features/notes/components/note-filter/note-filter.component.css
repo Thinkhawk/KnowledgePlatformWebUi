@@ -1,0 +1,6 @@
+/* Filter bar helpers */
+.filter-bar { display:flex; gap:10px; align-items:center }
+.filter-input { padding:8px; border-radius:8px; border:1px solid #ddd }
+
+@keyframes kpFadeIn { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:none } }
+
