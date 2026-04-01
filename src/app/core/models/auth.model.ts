@@ -23,3 +23,16 @@ export interface CreateUserModel {
   password: string;
   role: string;
 }
+
+export interface ChangePasswordModel {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface UserReadModel {
+  id: string;
+  username: string;
+  email: string;
+  fullName: string;
+  roles: string[];
+}

@@ -4,21 +4,20 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../../core/services/auth.service';
-import { CreateUserModel } from '../../../../core/models/auth.model';
+import { ChangePasswordModel } from '../../../../core/models/auth.model';
 
 @Component({
-  selector: 'app-create-user',
+  selector: 'app-change-password',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.css']
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.css']
 })
-export class CreateUserComponent {
+export class ChangePasswordComponent {
   form!: FormGroup;
   loading = false;
   message?: string;
   error?: string;
-  roles = ['ProjectAdmin', 'ProjectLead', 'TeamMember'];
 
   constructor(
     private fb: FormBuilder,
@@ -29,10 +28,8 @@ export class CreateUserComponent {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      role: ['', Validators.required]
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -45,18 +42,18 @@ export class CreateUserComponent {
     this.loading = true;
     this.error = undefined;
 
-    const dto = this.form.value as CreateUserModel;
-    this.auth['createUser'] ? this.auth['createUser'](dto).subscribe({
+    const dto = this.form.value as ChangePasswordModel;
+    this.auth.changePassword(dto).subscribe({
       next: res => {
         this.message = res;
         this.loading = false;
-        this.location.back();
+        this.auth.logout();
       },
       error: err => {
-        this.error = err?.error ?? err?.message ?? 'Create user failed';
+        this.error = err?.error ?? err?.message ?? 'Change password failed';
         this.loading = false;
       }
-    }) : Promise.reject('createUser not available on AuthService');
+    });
   }
 
   onCancel() {

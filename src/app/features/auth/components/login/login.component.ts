@@ -21,7 +21,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router
   ) { }
 
@@ -44,7 +44,7 @@ export class LoginComponent {
     const dto = this.form.value as LoginRequest;
     this.auth.login(dto).subscribe({
       next: () => {
-        this.router.navigate(['']);
+        this.router.navigate(['']); // Ensuring consistent format
       },
       error: (err: any) => {
         this.error = err?.error ?? err?.message ?? 'Login failed';

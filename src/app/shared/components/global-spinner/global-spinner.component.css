@@ -10,3 +10,14 @@
   align-items: center;
   z-index: 2000;
 }
+
+.spinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 6px solid rgba(0,0,0,0.08);
+  border-top-color: #0d6efd;
+  animation: kpSpin 0.9s linear infinite;
+}
+
+@keyframes kpSpin { to { transform: rotate(360deg) } }
