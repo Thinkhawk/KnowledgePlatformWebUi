@@ -1,2 +1,44 @@
-<h2>Login Page</h2>
-<p>This is the login page.</p>
+<div class="login-page">
+  <div class="login-container">
+    <div class="logo-wrap">
+      <img src="assets/images/knowledge-share-logo.png" alt="Knowledge Share Platform" class="login-logo" />
+      <span class="login-title">Knowledge Platform</span>
+    </div>
+    <p class="subtitle">Sign in to your account</p>
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <form (ngSubmit)="login()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          [(ngModel)]="username"
+          name="username"
+          autocomplete="username"
+          [disabled]="loading" />
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+          autocomplete="current-password"
+          [disabled]="loading" />
+      </div>
+
+      <button type="submit" class="btn-theme w-100" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+
+  </div>
+</div>
