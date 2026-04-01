@@ -1,95 +1,86 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
+<div class="page-container mx-auto">
+    <div class="form-card w-100" style="max-width: 800px;">
+        <div class="mb-4">
+            <h4 class="fw-bold text-dark mb-1">Create User</h4>
+            <p class="text-muted small">Add a new member to the platform and assign their access level.</p>
+        </div>
 
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body p-4 p-md-5">
+        <hr class="mb-4">
 
-                    <div class="mb-4 text-center">
-                        <div class="text-primary mb-2">
-                            <i class="bi bi-person-plus fs-1"></i>
+        <div *ngIf="message" class="alert-success mb-4">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
+        </div>
+
+        <div *ngIf="error" class="alert-error mb-4">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Username <span class="required">*</span></label>
+                        <input type="text"
+                               class="form-control"
+                               formControlName="username"
+                               placeholder="johndoe">
+                        <div class="field-error" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+                            Username is required.
                         </div>
-                        <h4 class="fw-bold text-dark mb-1">Create User</h4>
-                        <p class="text-muted small">Add a new member to the platform and assign their access level.</p>
                     </div>
+                </div>
 
-                    <div *ngIf="message" class="alert alert-success border-0 small py-2 mb-4">
-                        <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
-                    </div>
-
-                    <div *ngIf="error" class="alert alert-danger border-0 small py-2 mb-4">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
-                    </div>
-
-                    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase mb-1">Username</label>
-                                <input type="text"
-                                       class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
-                                       formControlName="username"
-                                       placeholder="johndoe">
-
-                                <div class="text-danger x-small mt-1" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
-                                    Username is required.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase mb-1">Email Address</label>
-                                <input type="email"
-                                       class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
-                                       formControlName="email"
-                                       placeholder="name@example.com">
-
-                                <div class="text-danger x-small mt-1" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-                                    Please enter a valid email.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase mb-1">Password</label>
-                                <input type="password"
-                                       class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
-                                       formControlName="password"
-                                       placeholder="••••••••">
-
-                                <div class="text-danger x-small mt-1" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-                                    Password is required.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase mb-1">Access Role</label>
-                                <select class="form-select form-select-lg border-light-subtle bg-light-subtle shadow-none"
-                                        formControlName="role">
-                                    <option value="" disabled selected>Select a role...</option>
-                                    <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
-                                </select>
-
-                                <div class="text-danger x-small mt-1" *ngIf="form.get('role')?.touched && form.get('role')?.invalid">
-                                    Please assign a role.
-                                </div>
-                            </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email"
+                               class="form-control"
+                               formControlName="email"
+                               placeholder="name@example.com">
+                        <div class="field-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+                            Please enter a valid email.
                         </div>
+                    </div>
+                </div>
 
-                        <div class="d-flex justify-content-between align-items-center pt-4 mt-4 border-top">
-                            <a (click)="onCancel()" class="btn btn-link text-muted text-decoration-none px-0">
-                                <i class="bi bi-arrow-left me-1"></i> Cancel
-                            </a>
-
-                            <button type="submit"
-                                    class="btn btn-primary px-5 py-2 fw-bold shadow-sm"
-                                    [disabled]="loading || form.invalid">
-                                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                                {{ loading ? 'Creating...' : 'Create User' }}
-                            </button>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Password <span class="required">*</span></label>
+                        <input type="password"
+                               class="form-control"
+                               formControlName="password">
+                        <div class="field-error" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+                            Password is required.
                         </div>
+                    </div>
+                </div>
 
-                    </form>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Access Role <span class="required">*</span></label>
+                        <select class="form-select" formControlName="role">
+                            <option value="" disabled selected>Select a role...</option>
+                            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+                        </select>
+                        <div class="field-error" *ngIf="form.get('role')?.touched && form.get('role')?.invalid">
+                            Please assign a role.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="form-actions mt-4 d-flex justify-content-end">
+                <a (click)="onCancel()" class="back-link mx-3">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="btn-theme mx-6"
+                        [disabled]="loading || form.invalid">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ loading ? 'Creating...' : 'Create User' }}
+                </button>
+
+            </div>
+        </form>
     </div>
 </div>

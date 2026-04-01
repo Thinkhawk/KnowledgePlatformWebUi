@@ -44,7 +44,7 @@ export class LoginComponent {
     const dto = this.form.value as LoginRequest;
     this.auth.login(dto).subscribe({
       next: () => {
-        this.router.navigate(['']); // Ensuring consistent format
+        this.router.navigate(['/dashboard']);
       },
       error: (err: any) => {
         this.error = err?.error ?? err?.message ?? 'Login failed';

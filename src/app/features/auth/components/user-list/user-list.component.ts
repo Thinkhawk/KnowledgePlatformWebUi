@@ -1,5 +1,5 @@
-import { Component,signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UserReadModel } from '../../../../core/models/auth.model';
 
@@ -11,16 +11,18 @@ import { UserReadModel } from '../../../../core/models/auth.model';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent {
-  loading=signal<boolean>(false);
+  loading = signal<boolean>(false);
   error?: string;
   users = signal<UserReadModel[]>([])
   view: 'team' | 'lead' | 'admin' = 'team';
   editingUsername = signal<string | null>(null);
   newRole = signal<string>('');
-  availableRoles = ['ProjectAdmin','ProjectLead','TeamMember'];
+  availableRoles = ['ProjectAdmin', 'ProjectLead', 'TeamMember'];
   isSeededAdmin = signal<boolean>(false);
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private location: Location) { }
 
   ngOnInit(): void {
     this.isSeededAdmin.set(this.auth.isSeededAdmin());
@@ -112,5 +114,9 @@ export class UserListComponent {
       },
       error: err => { this.error = err?.error ?? err?.message ?? 'Delete failed'; this.loading.set(false); }
     });
+  }
+
+  onCancel() {
+    this.location.back();
   }
 }

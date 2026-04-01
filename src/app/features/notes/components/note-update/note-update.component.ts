@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NoteUpdateModel } from '../../models/note-update.model';
 import { NoteReadModel } from '../../models/note-read.model';
 import { AppHttpError } from '../../../../core/models/app-http-error.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
@@ -33,7 +33,8 @@ export class NoteUpdateComponent implements OnInit {
     private noteService: NoteService,
     private authService: AuthService,
     private router: Router,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location:Location
   ) {
     this.noteUpdateForm = this.formBuilder.group<NoteUpdateForm>({
 
@@ -101,7 +102,7 @@ export class NoteUpdateComponent implements OnInit {
 
     this.noteService.update(this.noteId()!,model).subscribe({
       next: () => {
-        this.router.navigate(['/', this.teamId()])
+        this.location.back();
       },
 
       error: (error) => {
@@ -114,4 +115,7 @@ export class NoteUpdateComponent implements OnInit {
     })
   }
 
+  onCancel() {
+    this.location.back();
+  }
 }

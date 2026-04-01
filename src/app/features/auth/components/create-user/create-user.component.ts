@@ -50,7 +50,7 @@ export class CreateUserComponent {
       next: res => {
         this.message = res;
         this.loading = false;
-        this.location.back();
+        
       },
       error: err => {
         this.error = err?.error ?? err?.message ?? 'Create user failed';

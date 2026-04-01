@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -29,7 +29,8 @@ export class NoteCreateComponent implements OnInit {
     private noteService: NoteService,
     private authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {
     this.noteCreateForm = this.formBuilder.group<NoteCreateForm>({
 
@@ -61,7 +62,7 @@ export class NoteCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.teamId.set(Number(this.activatedRoute.snapshot.paramMap.get('teamId')));
+    this.teamId.set(Number(this.activatedRoute.parent?.snapshot.paramMap.get('teamId')));
     this.noteCreateForm.patchValue({
       teamId: this.teamId()
     });
@@ -84,7 +85,7 @@ export class NoteCreateComponent implements OnInit {
 
     this.noteService.create(model).subscribe({
       next: () => {
-        this.router.navigate(['/', this.teamId()])
+        this.location.back();
       },
 
       error: (error) => {
@@ -100,4 +101,7 @@ export class NoteCreateComponent implements OnInit {
 
   }
 
+  onCancel() {
+    this.location.back();
+  }
 }

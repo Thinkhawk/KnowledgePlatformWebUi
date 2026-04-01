@@ -20,6 +20,7 @@ export class NoteReadComponent implements OnInit{
   noteReadModels = signal<NoteReadModel[]>([]);
   teamId = signal<number | null>(null);
   hasCreateAccess = signal<boolean>(false);
+  showFilter: boolean = false;
 
   constructor(
     private router: Router,
@@ -32,9 +33,12 @@ export class NoteReadComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.teamId.set(Number(this.activatedRoute.snapshot.paramMap.get('teamId')));
-    this.loadNotes();
-    this.setCreateAccess();
+    this.activatedRoute.parent?.paramMap.subscribe(params => {
+      const newTeamId = Number(params.get('teamId'));
+      this.teamId.set(newTeamId);
+      this.loadNotes();
+      this.setCreateAccess();
+    });    
   }
 
   setCreateAccess() {
@@ -69,4 +73,7 @@ export class NoteReadComponent implements OnInit{
     this.noteReadModels.set(data);
   }
 
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
+  }
 }
