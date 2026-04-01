@@ -1,0 +1,60 @@
+<div class="sidebar">
+
+  <div class="logo">
+    <img src="assets/images/knowledge-share-logo.png" alt="Knowledge Share Platform" class="sidebar-logo" />
+    <span class="sidebar-title">Knowledge Platform</span>
+  </div>
+
+  <div class="menu">
+    <div class="menu-item"
+         routerLink="/dashboard"
+         routerLinkActive="active">
+      <app-icon name="dashboard" [size]="18" class="nav-icon"></app-icon>
+      Dashboard
+    </div>
+
+    <div class="menu-item"
+         routerLink="/projects"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+      <app-icon name="project" [size]="18" class="nav-icon"></app-icon>
+      Projects
+    </div>
+
+    <!-- Collapsible project/team tree -->
+    <div *ngFor="let project of projects" class="project-node">
+      <div class="menu-sub-item"
+           (click)="toggleProject(project.projectId)"
+           [class.active]="isProjectExpanded(project.projectId)">
+        <span class="nav-icon-sm">{{ isProjectExpanded(project.projectId) ? '&#9660;' : '&#9658;' }}</span>
+        <span class="project-link" (click)="navigateToProject(project.projectId); $event.stopPropagation()">
+          <app-icon name="project" [size]="14" class="nav-icon-sm"></app-icon>
+          {{ project.projectName }}
+        </span>
+      </div>
+
+      <div *ngIf="isProjectExpanded(project.projectId)" class="team-list">
+        <div *ngFor="let team of project.teams"
+             class="menu-team-item"
+             [class.active]="team.teamId === activeTeamId"
+             (click)="navigateToTeam(project.projectId, team.teamId)">
+          <app-icon name="team" [size]="14" class="team-icon"></app-icon>
+          {{ team.teamName }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User footer -->
+  <div class="user-footer">
+    <div class="user-info">
+      <span class="user-icon">&#9679;</span>
+      <div class="user-details">
+        <div class="user-name">{{ userName }}</div>
+        <div class="user-role">{{ userRole }}</div>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+</div>

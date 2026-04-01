@@ -1,0 +1,43 @@
+<div class="assign-panel">
+  <h6>Add Member</h6>
+
+  <div class="search-wrapper">
+    <input class="form-control"
+           [formControl]="searchControl"
+           placeholder="Search by name or email..."
+           autocomplete="off"
+           (blur)="showDropdown = false" />
+
+    <span *ngIf="isSearching" class="search-spinner">&#8230;</span>
+
+    <div *ngIf="showDropdown" class="user-dropdown">
+      <div *ngFor="let user of suggestions"
+           class="user-option"
+           (mousedown)="selectUser(user)">
+        <span class="user-option-name">{{ user.fullName }}</span>
+        <span class="user-option-email">{{ user.email }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedUser" class="selected-user">
+    &#10003; <strong>{{ selectedUser.fullName }}</strong> &mdash; {{ selectedUser.email }}
+    <span class="clear-selection" (click)="clearSelection()">&#10005;</span>
+  </div>
+
+  <div *ngIf="assignError" class="text-danger small mt-2">
+    {{ assignError }}
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <button type="button" class="btn-theme-outline" (click)="cancel()">Cancel</button>
+    <button type="button"
+            class="btn-theme"
+            [disabled]="!selectedUser"
+            (click)="assign()">
+      Assign Member
+    </button>
+  </div>
+
+</div>
+

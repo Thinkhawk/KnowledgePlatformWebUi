@@ -1,0 +1,25 @@
+<div *ngIf="isOpen" class="modal-backdrop" (click)="close()"></div>
+
+<div *ngIf="isOpen" class="modal d-block" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>{{ message }}</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-theme-outline" (click)="close()">Cancel</button>
+        <button type="button" class="btn" [ngClass]="confirmClass" (click)="confirm()">
+          {{ confirmText }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

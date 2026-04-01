@@ -1,0 +1,38 @@
+<span class="back-link" (click)="cancel()">← Back to Projects</span>
+
+<h4>Create New Project</h4>
+<hr />
+
+<form [formGroup]="form" (ngSubmit)="create()" class="form-sheet">
+
+  <div class="mb-3">
+    <label class="form-label">Project Name *</label>
+    <input class="form-control"
+           formControlName="name"
+           placeholder="e.g. Learning Portal" />
+    <div *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')"
+         class="text-danger small">Project name is required.</div>
+    <div *ngIf="form.get('name')?.hasError('minlength')"
+         class="text-danger small">Minimum 2 characters.</div>
+    <div *ngIf="form.get('name')?.hasError('maxlength')"
+         class="text-danger small">Maximum 100 characters.</div>
+    <div *ngIf="serverErrors['Name']" class="text-danger small">
+      {{ serverErrors['Name'][0] }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" rows="4"
+              formControlName="description"
+              placeholder="Optional project description"></textarea>
+    <div *ngIf="form.get('description')?.hasError('maxlength')"
+         class="text-danger small">Maximum 4000 characters.</div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <button type="button" class="btn-theme-outline" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn-theme" [disabled]="form.invalid">Create Project</button>
+  </div>
+
+</form>
