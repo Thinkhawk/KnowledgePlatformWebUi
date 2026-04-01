@@ -1,116 +1,116 @@
-<div class="ms-2">
-    <h5>Knowledge Notes</h5>
-</div>
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-11 col-lg-12">
+<div>
+    <a [routerLink]="['../../']"><h6 class="title mb-1 ms-1 back-link">← Back to Notes</h6></a>
 
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-body p-4 p-md-5">
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-11 col-lg-12">
 
-                    <div class="mb-4 d-flex justify-content-between align-items-start">
-                        <div>
-                            <h4 class="fw-bold text-dark mb-1">Update Note</h4>
-                            <p class="text-muted small">Modify the details of your note below.</p>
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="mb-4 d-flex justify-content-between align-items-start">
+                            <div>
+                                <h4 class="fw-bold text-dark mb-1">Update Note</h4>
+                                <p class="text-muted small">Modify the details of your note below.</p>
+                            </div>
                         </div>
+
+                        <div *ngIf="apiError()" class="alert alert-danger border-0 small py-2 mb-4">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {{ apiError() }}
+                        </div>
+
+                        <form [formGroup]="noteUpdateForm" (ngSubmit)="onSubmit()" novalidate>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Title</label>
+                                <input type="text"
+                                       class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
+                                       formControlName="title"
+                                       placeholder="Update title...">
+
+                                <div class="position-absolute top-0 end-0 p-4 d-none d-sm-block mt-4 me-4">
+                                    <div class="text-end">
+                                        <span class="badge bg-light text-secondary border px-3 py-2 fw-bold">TEAM ID: {{ teamId() }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-danger x-small mt-1"
+                                     *ngIf="(noteUpdateForm.controls.title.touched && noteUpdateForm.controls.title.invalid) || validationErrors()?.['Title']">
+                                    <span *ngIf="noteUpdateForm.controls.title.errors?.['required']">Title is required.</span>
+                                    <span *ngIf="noteUpdateForm.controls.title.errors?.['minlength']">Minimum 2 characters required.</span>
+                                    <span *ngIf="validationErrors()?.['Title']">{{ validationErrors()?.['Title']?.[0] }}</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Content</label>
+                                <textarea class="form-control border-light-subtle bg-light-subtle shadow-none"
+                                          rows="15"
+                                          formControlName="content"
+                                          placeholder="Update content..."></textarea>
+
+                                <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Content']">
+                                    {{ validationErrors()?.['Content']?.[0] }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Tags</label>
+                                <input type="text"
+                                       class="form-control border-light-subtle bg-light-subtle shadow-none"
+                                       formControlName="tags"
+                                       placeholder="#tag1 #tag2">
+
+                                <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Tags']">
+                                    {{ validationErrors()?.['Tags']?.[0] }}
+                                </div>
+                                <br />
+                            </div>
+
+                            <div class="row g-2 pt-4 border-top">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-2 rounded bg-light border border-light-subtle h-100">
+                                        <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Created by</span>
+                                        <span class="small text-dark fw-medium">{{ noteReadModel()?.creatorName }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-2 rounded bg-light border border-light-subtle h-100">
+                                        <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Created On</span>
+                                        <span class="small text-dark fw-medium">{{ noteReadModel()?.createdAtUtc | date:'short' }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-2 rounded bg-light border border-light-subtle h-100">
+                                        <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Updated By</span>
+                                        <span class="small text-dark fw-medium">{{ noteReadModel()?.updaterName }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-2 rounded bg-light border border-light-subtle h-100">
+                                        <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Updated On</span>
+                                        <span class="small text-dark fw-medium">{{ noteReadModel()?.updatedAtUtc | date:'short' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end align-items-center pt-3 border-top mt-4">
+                                <div class="d-flex gap-2">
+                                    <button class="btn-theme px-4 fw-bold shadow-sm" type="submit" [disabled]="noteUpdateForm.invalid">
+                                        Update Note
+                                    </button>
+                                    <a (click)="onCancel()" class="btn btn-link text-muted text-decoration-none px-2">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                        </form>
+
                     </div>
-
-                    <div *ngIf="apiError()" class="alert alert-danger border-0 small py-2 mb-4">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        {{ apiError() }}
-                    </div>
-
-                    <form [formGroup]="noteUpdateForm" (ngSubmit)="onSubmit()" novalidate>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-muted text-uppercase">Title</label>
-                            <input type="text"
-                                   class="form-control form-control-lg border-light-subtle bg-light-subtle shadow-none"
-                                   formControlName="title"
-                                   placeholder="Update title...">
-
-                            <div class="position-absolute top-0 end-0 p-4 d-none d-sm-block mt-4 me-4">
-                                <div class="text-end">
-                                    <span class="badge bg-light text-secondary border px-3 py-2 fw-bold">TEAM ID: {{ teamId() }}</span>
-                                </div>
-                            </div>
-
-                            <div class="text-danger x-small mt-1"
-                                 *ngIf="(noteUpdateForm.controls.title.touched && noteUpdateForm.controls.title.invalid) || validationErrors()?.['Title']">
-                                <span *ngIf="noteUpdateForm.controls.title.errors?.['required']">Title is required.</span>
-                                <span *ngIf="noteUpdateForm.controls.title.errors?.['minlength']">Minimum 2 characters required.</span>
-                                <span *ngIf="validationErrors()?.['Title']">{{ validationErrors()?.['Title']?.[0] }}</span>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-muted text-uppercase">Content</label>
-                            <textarea class="form-control border-light-subtle bg-light-subtle shadow-none"
-                                      rows="15"
-                                      formControlName="content"
-                                      placeholder="Update content..."></textarea>
-
-                            <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Content']">
-                                {{ validationErrors()?.['Content']?.[0] }}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-muted text-uppercase">Tags</label>
-                            <input type="text"
-                                   class="form-control border-light-subtle bg-light-subtle shadow-none"
-                                   formControlName="tags"
-                                   placeholder="#tag1 #tag2">
-
-                            <div class="text-danger x-small mt-1" *ngIf="validationErrors()?.['Tags']">
-                                {{ validationErrors()?.['Tags']?.[0] }}
-                            </div>
-                            <br />
-                        </div>
-
-                        <div class="row g-2 pt-4 border-top">
-                            <div class="col-6 col-md-3">
-                                <div class="p-2 rounded bg-light border border-light-subtle h-100">
-                                    <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Created by</span>
-                                    <span class="small text-dark fw-medium">{{ noteReadModel()?.creatorName }}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="p-2 rounded bg-light border border-light-subtle h-100">
-                                    <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Created On</span>
-                                    <span class="small text-dark fw-medium">{{ noteReadModel()?.createdAtUtc | date:'short' }}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="p-2 rounded bg-light border border-light-subtle h-100">
-                                    <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Updated By</span>
-                                    <span class="small text-dark fw-medium">{{ noteReadModel()?.updaterName }}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="p-2 rounded bg-light border border-light-subtle h-100">
-                                    <span class="d-block small text-muted fw-bold text-uppercase x-small mb-1">Updated On</span>
-                                    <span class="small text-dark fw-medium">{{ noteReadModel()?.updatedAtUtc | date:'short' }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-end align-items-center pt-3 border-top mt-4">
-                            <div class="d-flex gap-2">
-                                <button class="btn-theme px-4 fw-bold shadow-sm" type="submit" [disabled]="noteUpdateForm.invalid">
-                                    Update Note
-                                </button>
-                                <a (click)="onCancel()" class="btn btn-link text-muted text-decoration-none px-2">
-                                    Cancel
-                                </a>
-                            </div>
-                        </div>
-
-                    </form>
-
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>

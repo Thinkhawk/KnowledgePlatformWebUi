@@ -9,8 +9,8 @@
       <small class="text-muted">Created: {{ project.createdAtUtc | date:'mediumDate' }}</small>
     </div>
     <div class="d-flex gap-2">
-      <button *ngIf="canEditProject" class="btn-theme-outline" (click)="editProject()">✏ Edit</button>
-      <button *ngIf="canDeleteProject" class="btn-theme-danger" (click)="confirmDelete()">🗑 Delete</button>
+      <button *ngIf="canEditProject" class="btn-theme-outline" (click)="editProject()"><i class="bi bi-pencil-square me-0"></i></button>
+      <button *ngIf="canDeleteProject" class="btn-theme-danger-outline" (click)="confirmDelete()"> <i class="bi bi-trash3 me-0"></i></button>
     </div>
   </div>
 

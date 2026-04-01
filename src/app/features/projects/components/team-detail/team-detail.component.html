@@ -8,9 +8,9 @@
             <h4><app-icon name="team" [size]="22" class="me-2"></app-icon>{{ team.name }}</h4>
         </div>
         <div *ngIf="isLead" class="d-flex gap-2">
-            <button class="btn-theme-outline" (click)="toggleMembersSection()"> {{showMembersSection ? 'Hide' : 'Show'}} Members ({{ members.length }})</button>
-            <button class="btn-theme-outline" (click)="editTeam()">✏ Edit</button>
-            <button class="btn-theme-danger" (click)="confirmDeleteTeam()">🗑 Delete</button>
+            <button class="btn-theme-outline" (click)="toggleMembersSection()"> <i class="bi" [ngClass]="showMembersSection ? 'bi-eye-slash' : 'bi-eye'"></i> Members ({{ members.length }})</button>
+            <button class="btn-theme-outline" (click)="editTeam()"><i class="bi bi-pencil-square me-0"></i></button>
+            <button class="btn-theme-danger-outline" (click)="confirmDeleteTeam()"><i class="bi bi-trash3 me-0"></i></button>
         </div>
     </div>
 
