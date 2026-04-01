@@ -85,8 +85,8 @@ export class AuthService extends ApiBaseService{
     return super.post<string>('/auth/create-user', dto);
   }
 
-  changeUserRole(dto: { username: string; oldRole: string; newRole: string; }): Observable<string> {
-    return super.post<string>('/auth/change-role', dto);
+  changeUserRole(dto: { username: string; oldRole: string; newRole: string; }): Observable<{ Message: string; Roles: string[] }> {
+    return super.post<{ Message: string; Roles: string[] }>('/auth/change-role', dto);
   }
 
   changePassword(dto: ChangePasswordModel): Observable<string> {

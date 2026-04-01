@@ -12,7 +12,7 @@ export interface TeamAccessMap {
 @Injectable({
   providedIn: 'root'
 })
-export class UserAccessService extends ApiBaseService {
+export class UserAccessService extends ApiBaseService { 
 
   private readonly userAccessKey = 'user_accesses';
 

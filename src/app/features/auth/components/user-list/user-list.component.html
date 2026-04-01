@@ -5,9 +5,9 @@
       <p class="text-muted small mb-0">Project Admins, Project Leads and Team Members (ProjectAdmin only)</p>
     </div>
     <div>
-      <button class="btn btn-sm btn-outline-primary me-2" (click)="loadTeamMembers()">Team Members</button>
-      <button class="btn btn-sm btn-outline-primary me-2" (click)="loadProjectLeads()">Project Leads</button>
-      <button class="btn btn-sm btn-outline-primary" (click)="loadProjectAdmins()">Project Admins</button>
+      <button type="button" class="btn btn-sm btn-outline-primary me-2" (click)="loadTeamMembers()">Team Members</button>
+      <button type="button" class="btn btn-sm btn-outline-primary me-2" (click)="loadProjectLeads()">Project Leads</button>
+      <button type="button" class="btn btn-sm btn-outline-primary" (click)="loadProjectAdmins()">Project Admins</button>
     </div>
   </div>
 
@@ -32,16 +32,16 @@
         <td>{{ u.roles.join(', ') }}</td>
         <td class="text-end d-flex">
           <div *ngIf="isSeededAdmin()">
-            <button class="btn btn-sm btn-secondary me-2" *ngIf="editingUsername() !== u.username" (click)="startEdit(u)">Edit Role</button>
+            <button type="button" class="btn btn-sm btn-secondary me-2" *ngIf="editingUsername() !== u.username" (click)="startEdit(u)">Edit Role</button>
             <div *ngIf="editingUsername() === u.username" class="d-inline-block me-2">
-              <select [value]="newRole()" (change)="newRole.set($any($event.target).value)" class="form-select form-select-sm d-inline-block" style="width:auto;">
+              <select #roleSelect [value]="newRole()" (change)="newRole.set($any($event.target).value)" class="form-select form-select-sm d-inline-block" style="width:auto;">
                 <option *ngFor="let r of availableRoles" [value]="r">{{ r }}</option>
               </select>
-              <button class="btn btn-sm btn-primary ms-1" (click)="saveRole(u)">Save</button>
-              <button class="btn btn-sm btn-light ms-1" (click)="cancelEdit()">Cancel</button>
+              <button type="button" class="btn btn-sm btn-primary ms-1" (click)="saveRole(u, roleSelect.value)">Save</button>
+              <button type="button" class="btn btn-sm btn-light ms-1" (click)="cancelEdit()">Cancel</button>
             </div>
           </div>
-          <button class="btn btn-sm btn-danger" (click)="deleteUser(u.username)">Delete</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="deleteUser(u.username)">Delete</button>
         </td>
       </tr>
     </tbody>

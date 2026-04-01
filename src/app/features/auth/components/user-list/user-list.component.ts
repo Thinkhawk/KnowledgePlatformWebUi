@@ -29,6 +29,7 @@ export class UserListComponent {
 
   startEdit(u: UserReadModel) {
     if (!this.isSeededAdmin()) return;
+    if (u.username.toLowerCase() === 'admin' || u.email.toLowerCase() === 'admin@test.com') return;
     this.editingUsername.set(u.username);
     this.newRole.set(u.roles.length ? u.roles[0] : this.availableRoles[0]);
   }
@@ -37,18 +38,26 @@ export class UserListComponent {
     this.editingUsername.set(null);
   }
 
-  saveRole(u: UserReadModel) {
+  saveRole(u: UserReadModel, selectedRole?: string) {
     const username = u.username;
+    // derive oldRole from the current user roles (first entry) to keep behavior
     const oldRole = u.roles.length ? u.roles[0] : '';
-    const newRole = this.newRole();
-    if (!newRole || newRole === oldRole) {
-      this.cancelEdit();
-      return;
-    }
+    // prefer the explicit selected value if provided (avoids select binding issues), otherwise fall back to signal
+    const newRole = (selectedRole ?? this.newRole()).toString();
+    if (!newRole) { this.cancelEdit(); return; }
     this.loading.set(true);
     this.auth.changeUserRole({ username, oldRole, newRole }).subscribe({
       next: res => {
-        // refresh current view
+        // update local user roles from response
+        if (res && res.Roles) {
+          const list = this.users();
+          const idx = list.findIndex(x => x.username === username);
+          if (idx >= 0) {
+            list[idx] = { ...list[idx], roles: res.Roles };
+            this.users.set(list);
+          }
+        }
+        // refresh current view to reflect role-specific lists
         if (this.view === 'team') this.loadTeamMembers();
         else if (this.view === 'lead') this.loadProjectLeads();
         else this.loadProjectAdmins();
