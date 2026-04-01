@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ProjectService } from '../../services/project';
 import { TeamAccessService } from '../../services/team-access.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -14,7 +14,7 @@ import { AppHttpError } from '../../../../core/models/app-http-error.model';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ConfirmModalComponent, AssignUserComponent, IconComponent],
+  imports: [CommonModule, ConfirmModalComponent, AssignUserComponent, IconComponent, RouterOutlet],
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.css']
 })

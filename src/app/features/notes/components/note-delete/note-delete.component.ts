@@ -24,7 +24,7 @@ export class NoteDeleteComponent implements OnInit {
     private noteService: NoteService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private location:Location
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -56,11 +56,17 @@ export class NoteDeleteComponent implements OnInit {
       rowVersion: this.noteReadModel()!.rowVersion
     };
 
-    this.noteService.remove(this.noteId()!,noteDeleteModel).subscribe({
+    this.noteService.remove(this.noteId()!, noteDeleteModel).subscribe({
       next: () => {
-        this.router.navigate(['/', this.noteReadModel()?.teamId])
+
+        const projectId = this.activatedRoute.snapshot.paramMap.get('id') ||
+          this.activatedRoute.parent?.snapshot.paramMap.get('id') ||
+          this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id');
+
+        const teamId = this.noteReadModel()?.teamId;
+
+        this.router.navigate(['/projects', projectId, 'teams', teamId]);
         setTimeout(() => window.location.reload(), 1);
-        
       },
       error: (error) => {
         if (error.isConcurrencyError) {

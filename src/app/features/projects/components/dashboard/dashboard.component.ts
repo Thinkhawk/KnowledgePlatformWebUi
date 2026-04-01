@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SidebarService } from '../../../../core/services/sidebar.service';
-import { ProjectAccessItem } from '../../../../core/models/user-access.model';
+import { ProjectAccessReadModel } from '../../../../core/models/user-access.model';
 import { IconComponent } from '../../../../shared/components/icon/icon.component';
 
 @Component({
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   userName = '';
   canCreateProject = false;
-  projects: ProjectAccessItem[] = [];
+  projects: ProjectAccessReadModel[] = [];
   projectCount = 0;
   teamCount = 0;
 

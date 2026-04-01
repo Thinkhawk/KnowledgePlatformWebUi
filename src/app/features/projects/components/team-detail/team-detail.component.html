@@ -50,7 +50,7 @@
           <td>{{ member.email || member.userId }}</td>
           <td>
             <span class="badge"
-                  [ngClass]="member.accessLevel === 'Write' ? 'bg-success' : 'bg-secondary'">
+                  [ngClass]="member.accessLevel === 1 ? 'bg-success' : 'bg-secondary'">
               {{ member.accessLevel }}
             </span>
           </td>
@@ -72,15 +72,9 @@
   <!-- Knowledge Notes Section (placeholder for Member 3) -->
   <div class="page-header">
     <h5>Knowledge Notes</h5>
-    <button class="btn-theme"
-            (click)="router.navigate(['/projects', projectId, 'teams', teamId, 'notes', 'create'])">
-      + Add Note
-    </button>
   </div>
 
-  <div class="text-muted">
-    <em>Notes section needs to be implimented</em>
-  </div>
+  <router-outlet></router-outlet>
 
   <div *ngIf="isMember" class="mt-3">
     <small class="text-muted">ℹ You can only edit your own notes.</small>

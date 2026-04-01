@@ -66,7 +66,7 @@ export class AssignUserComponent implements OnInit {
     this.teamAccessService.assignMember({
       teamId: this.teamId,
       userId: this.selectedUser.userId,
-      accessLevel: 'Write'
+      accessLevel: 1
     }).subscribe({
       next: () => {
         this.resetForm();

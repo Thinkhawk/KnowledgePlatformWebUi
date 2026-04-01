@@ -4,7 +4,7 @@ export interface TeamMember {
   userId: string;
   userName?: string;
   email?: string;
-  accessLevel: 'Read' | 'Write';
+  accessLevel: 0 | 1;
   createdAtUtc: string;
   updatedAtUtc?: string;
   rowVersion: string;
@@ -13,7 +13,7 @@ export interface TeamMember {
 export interface TeamAccessCreateRequest {
   teamId: number;
   userId: string;
-  accessLevel: string;
+  accessLevel: 0 | 1;
 }
 
 export interface TeamAccessDeleteRequest {

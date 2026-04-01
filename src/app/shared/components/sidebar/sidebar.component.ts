@@ -4,7 +4,7 @@ import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { ProjectAccessItem } from '../../../core/models/user-access.model';
+import { ProjectAccessReadModel } from '../../../core/models/user-access.model';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
@@ -16,7 +16,7 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class SidebarComponent implements OnInit {
 
-  projects: ProjectAccessItem[] = [];
+  projects: ProjectAccessReadModel[] = [];
   expandedProjectId: number | null = null;
   activeProjectId: number | null = null;
   activeTeamId: number | null = null;

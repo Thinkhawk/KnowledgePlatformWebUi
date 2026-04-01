@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SidebarService } from '../../../../core/services/sidebar.service';
-import { ProjectAccessItem } from '../../../../core/models/user-access.model';
+import { ProjectAccessReadModel } from '../../../../core/models/user-access.model';
 import { IconComponent } from '../../../../shared/components/icon/icon.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { IconComponent } from '../../../../shared/components/icon/icon.component
 })
 export class ProjectListComponent implements OnInit {
 
-  projects: ProjectAccessItem[] = [];
+  projects: ProjectAccessReadModel[] = [];
   canCreateProject = false;
 
   constructor(
@@ -30,7 +30,7 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  openProject(project: ProjectAccessItem): void {
+  openProject(project: ProjectAccessReadModel): void {
     this.router.navigate(['/projects', project.projectId]);
   }
 }

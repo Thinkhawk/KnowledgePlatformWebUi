@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ProjectAccessItem } from '../models/user-access.model';
+import { ProjectAccessReadModel } from '../models/user-access.model';
 import { APP_CONFIG } from '../config/app-config.token';
 import { AppConfig } from '../config/app-config.interface';
 
@@ -10,8 +10,8 @@ import { AppConfig } from '../config/app-config.interface';
 export class SidebarService {
 
   private readonly baseUrl: string;
-  private readonly projectsSubject = new BehaviorSubject<ProjectAccessItem[]>([]);
-  readonly projects$: Observable<ProjectAccessItem[]> = this.projectsSubject.asObservable();
+  private readonly projectsSubject = new BehaviorSubject<ProjectAccessReadModel[]>([]);
+  readonly projects$: Observable<ProjectAccessReadModel[]> = this.projectsSubject.asObservable();
 
   constructor(
     private readonly http: HttpClient,
@@ -21,7 +21,7 @@ export class SidebarService {
   }
 
   loadTree(userId: string): void {
-    this.http.get<ProjectAccessItem[]>(`${this.baseUrl}/useraccess/${userId}`)
+    this.http.get<ProjectAccessReadModel[]>(`${this.baseUrl}/useraccess/${userId}`)
       .pipe(map(res => res ?? []))
       .subscribe(projects => this.projectsSubject.next(projects));
   }
@@ -30,7 +30,7 @@ export class SidebarService {
     this.loadTree(userId);
   }
 
-  getProjects(): ProjectAccessItem[] {
+  getProjects(): ProjectAccessReadModel[] {
     return this.projectsSubject.value;
   }
 }
