@@ -1,1 +1,302 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --primary-darker: #0c4a6e;
+  --primary-light: #e0f2fe;
+  --accent: #06b6d4;
+  --surface: #ffffff;
+  --background: #f1f5f9;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --transition: 0.2s ease;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--background);
+}
+
+/* Card grid used across project-list, project-detail, dashboard */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Page header layout */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.page-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Back link */
+.back-link {
+  color: var(--primary);
+  cursor: pointer;
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Summary cards on dashboard */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 24px 20px;
+  text-align: center;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.summary-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.summary-card .count {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.summary-card .label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-theme {
+  padding: 8px 18px;
+  background: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+  display: inline-block;
+}
+
+.btn-theme.w-100 {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-theme:hover:not(:disabled) {
+  background: #0369a1;
+}
+
+.btn-theme:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-theme-outline {
+  padding: 8px 18px;
+  background: transparent;
+  color: #0284c7;
+  border: 1px solid #0284c7;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-block;
+}
+
+.btn-theme-outline:hover:not(:disabled) {
+  background: #0284c7;
+  color: white;
+}
+
+.btn-theme-outline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-theme-danger {
+  padding: 8px 18px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+  display: inline-block;
+}
+
+.btn-theme-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.btn-theme-danger-outline {
+  padding: 8px 18px;
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-block;
+}
+
+.btn-theme-danger-outline:hover:not(:disabled) {
+  background: #dc2626;
+  color: white;
+}
+
+/* Form refinement */
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Section headings */
+h4, h5 {
+  font-weight: 700;
+  color: var(--text);
+}
+
+hr {
+  border-color: var(--border);
+  opacity: 0.6;
+}
+
+/* Constrained form layout used on create/edit pages */
+.form-sheet {
+  max-width: 500px;
+}
+
+/* Page container */
+.page-container {
+  padding: 32px 40px;
+  max-width: 900px;
+}
+
+/* Form card — white box wrapping a form */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
+  max-width: 520px;
+}
+
+/* Form group — label + input block */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+/* Field-level validation error */
+.field-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 2px;
+}
+
+/* Form action row — buttons at bottom of form */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* Alert banners */
+.alert-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.alert-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}

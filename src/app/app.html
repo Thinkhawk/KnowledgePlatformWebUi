@@ -1,2 +1,19 @@
-<h1>Knowledge Platform UI</h1>
-<router-outlet></router-outlet>
+<app-global-spinner></app-global-spinner>
+
+<div class="app-container" *ngIf="authService.isLoggedIn() && !isLoginPage; else loginOnly">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loginOnly>
+  <router-outlet></router-outlet>
+</ng-template>
