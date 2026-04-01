@@ -8,6 +8,7 @@ import { NoteUpdateComponent } from './features/notes/components/note-update/not
 import { authGuard } from './core/guards/auth-guard';
 import { NoteViewComponent } from './features/notes/components/note-view/note-view.component';
 import { noteGuard } from './core/guards/note-guard';
+import { seedGuard } from './core/guards/seed-guard';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'users',
     loadComponent: () => import('./features/auth/components/user-list/user-list.component').then(m => m.UserListComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard, seedGuard]
   },
   {
     path: 'change-password',

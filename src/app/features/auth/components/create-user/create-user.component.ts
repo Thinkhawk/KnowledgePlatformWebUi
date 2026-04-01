@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -23,7 +23,8 @@ export class CreateUserComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -49,11 +50,16 @@ export class CreateUserComponent {
       next: res => {
         this.message = res;
         this.loading = false;
+        this.location.back();
       },
       error: err => {
         this.error = err?.error ?? err?.message ?? 'Create user failed';
         this.loading = false;
       }
     }) : Promise.reject('createUser not available on AuthService');
+  }
+
+  onCancel() {
+    this.location.back();
   }
 }
