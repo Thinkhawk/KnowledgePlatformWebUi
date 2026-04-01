@@ -1,9 +1,26 @@
-/* Basic table styles */
-.kp-header button { min-width: 120px; }
-.table td, .table th { vertical-align: middle; }
+.x-small {
+  font-size: 0.7rem;
+}
 
-/* Table card wrapper */
-.kp-card { padding:12px; border-radius:8px; background:#fff; box-shadow:0 12px 32px rgba(12,12,20,0.06) }
-.user-avatar { width:36px; height:36px; border-radius:50%; object-fit:cover }
+.table thead th {
+  letter-spacing: 0.05rem;
+  border-bottom: none;
+}
 
-@keyframes kpFadeIn { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:none } }
+.table tbody td {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.bg-light-subtle {
+  background-color: #f8f9fa !important;
+}
+
+/* Make the inline select look less like a standard box */
+.form-select-sm {
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.card-header {
+  border-bottom: none;
+}
