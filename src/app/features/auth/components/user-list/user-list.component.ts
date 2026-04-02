@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UserReadModel } from '../../../../core/models/auth.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })

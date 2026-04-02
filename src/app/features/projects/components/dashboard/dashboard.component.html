@@ -2,7 +2,6 @@
     <h4>Welcome back, {{ userName }} 👋</h4>
     <div class="btn-group">
         <a *ngIf="authService.isSeededAdmin()" [routerLink]="['/users']" class="btn btn-sm btn-theme-outline px-3">Manage Users</a>
-        <a *ngIf="authService.isLead()" [routerLink]="['/create-user']" class="btn btn-sm btn-theme-outline px-3">Create User</a>
         <a [routerLink]="['/change-password']" class="btn btn-sm btn-theme-outline px-3">Change Password</a>
     </div>
 
