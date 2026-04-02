@@ -10,6 +10,7 @@ import { NoteViewComponent } from './features/notes/components/note-view/note-vi
 import { noteGuard } from './core/guards/note-guard';
 import { seedGuard } from './core/guards/seed-guard';
 import { roleGuard } from './core/guards/role.guard';
+import { adminGuard } from './core/guards/admin-guard';
 
 export const routes: Routes = [
 
@@ -121,7 +122,7 @@ export const routes: Routes = [
   {
     path: 'create-user',
     component: CreateUserComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard, adminGuard]
   },
   {
     path: 'users',
