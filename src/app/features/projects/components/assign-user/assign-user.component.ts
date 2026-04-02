@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { TeamAccessService } from '../../services/team-access.service';
@@ -10,7 +10,7 @@ import { AppHttpError } from '../../../../core/models/app-http-error.model';
 @Component({
   selector: 'app-assign-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './assign-user.component.html',
   styleUrls: ['./assign-user.component.css']
 })
@@ -20,6 +20,7 @@ export class AssignUserComponent implements OnInit {
   @Output() memberAssigned = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
+  accessLevel: 'Read' | 'Write' = 'Read';
   searchControl = new FormControl('');
   suggestions: UserSearchResult[] = [];
   selectedUser: UserSearchResult | null = null;
@@ -27,7 +28,7 @@ export class AssignUserComponent implements OnInit {
   isSearching = false;
   showDropdown = false;
 
-  constructor(private teamAccessService: TeamAccessService) {}
+  constructor(private teamAccessService: TeamAccessService) { }
 
   ngOnInit(): void {
     this.searchControl.valueChanges.pipe(
@@ -66,7 +67,7 @@ export class AssignUserComponent implements OnInit {
     this.teamAccessService.assignMember({
       teamId: this.teamId,
       userId: this.selectedUser.userId,
-      accessLevel: 1
+      accessLevel: this.accessLevel === 'Read' ? 0 : 1,
     }).subscribe({
       next: () => {
         this.resetForm();
@@ -93,5 +94,6 @@ export class AssignUserComponent implements OnInit {
     this.suggestions = [];
     this.showDropdown = false;
     this.assignError = null;
+    this.accessLevel = 'Read';
   }
 }

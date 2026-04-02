@@ -51,7 +51,7 @@
                     <td>
                         <span class="badge"
                               [ngClass]="member.accessLevel === 1 ? 'bg-success' : 'bg-secondary'">
-                            {{ member.accessLevel }}
+                            {{ member.accessLevel ? 'Read' : 'Write'}}
                         </span>
                     </td>
                     <td>
