@@ -12,7 +12,7 @@
                     <input type="text" class="form-control" formControlName="noteId" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (id of distinctNoteIds; track id) {
+                        @for (id of distinctNoteIds(); track id) {
                         <li><a class="dropdown-item small" (click)="setControlValue('noteId', id)">{{id}}</a></li>
                         }
                     </ul>
@@ -28,7 +28,7 @@
                     <input type="text" class="form-control" formControlName="title" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (t of distinctTitles; track t) {
+                        @for (t of distinctTitles(); track t) {
                         <li><a class="dropdown-item small" (click)="setControlValue('title', t)">{{t}}</a></li>
                         }
                     </ul>
@@ -44,7 +44,7 @@
                     <input type="text" class="form-control" formControlName="creatorName" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (u of distinctCreators; track u) {
+                        @for (u of distinctCreators(); track u) {
                         <li><a class="dropdown-item small" (click)="setControlValue('creatorName', u)">{{u}}</a></li>
                         }
                     </ul>
@@ -60,7 +60,7 @@
                     <input type="text" class="form-control" formControlName="updaterName" placeholder="...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (u of distinctUpdaters; track u) {
+                        @for (u of distinctUpdaters(); track u) {
                         <li><a class="dropdown-item small" (click)="setControlValue('updaterName', u)">{{u}}</a></li>
                         }
                     </ul>
@@ -76,7 +76,7 @@
                     <input type="text" class="form-control" formControlName="tags" placeholder="#...">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (tag of distinctTags; track tag) {
+                        @for (tag of distinctTags(); track tag) {
                         <li><a class="dropdown-item small" (click)="setControlValue('tags', tag)">#{{tag}}</a></li>
                         }
                     </ul>
@@ -92,7 +92,7 @@
                     <input type="date" class="form-control" formControlName="createdAtUtc">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (d of distinctCreatedAtUtc; track d) {
+                        @for (d of distinctCreatedAtUtc(); track d) {
                         <li><a class="dropdown-item small" (click)="setControlValue('createdAtUtc', d)">{{d}}</a></li>
                         }
                     </ul>
@@ -108,7 +108,7 @@
                     <input type="date" class="form-control" formControlName="updatedAtUtc">
                     <button class="btn btn-outline-secondary dropdown-toggle px-2" type="button" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="max-height: 150px; overflow-y: auto;">
-                        @for (d of distinctUpdatedAtUtc; track d) {
+                        @for (d of distinctUpdatedAtUtc(); track d) {
                         <li><a class="dropdown-item small" (click)="setControlValue('updatedAtUtc', d)">{{d}}</a></li>
                         }
                     </ul>
